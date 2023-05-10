@@ -1,8 +1,18 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-type TInitialState = {
-  tasks: Array<string>
-  favoriteTasks: Array<string>
+export enum Priority {
+  'low' = 'низкий',
+  'medium' = 'средний',
+  'high' = 'высокий',
+}
+export type TTasksObj = {
+  task: string
+  priority: string
+  tags: Array<string>
+}
+export type TInitialState = {
+  tasks: Array<TTasksObj>
+  favoriteTasks: Array<TTasksObj>
   inputTaskValue: string
 }
 
@@ -16,7 +26,7 @@ const tasksSlice = createSlice({
   name: 'tasks',
   initialState,
   reducers: {
-    addTask(state, action: PayloadAction<string>) {
+    addTask(state, action: PayloadAction<TTasksObj>) {
       const tasks = state.tasks
       const valueFromTaskInput = action.payload
 
@@ -46,7 +56,7 @@ const tasksSlice = createSlice({
       const indexOfTaskToMove = action.payload
       const favTasks = state.favoriteTasks
       const tasks = state.tasks
-      const taskToMove = favTasks[indexOfTaskToMove]
+      const taskToMove: TTasksObj = favTasks[indexOfTaskToMove]
 
       tasks.push(taskToMove)
       favTasks.splice(indexOfTaskToMove, 1)
@@ -55,6 +65,38 @@ const tasksSlice = createSlice({
       const valueFromTaskInput = action.payload
 
       state.inputTaskValue = valueFromTaskInput
+    },
+    addPriority(state, action) {
+      const { priorityValue, taskIndex } = action.payload
+      const tasks = state.tasks
+
+      switch (priorityValue) {
+        case 'low':
+          tasks[taskIndex].priority = Priority.low
+          break
+        case 'medium':
+          tasks[taskIndex].priority = Priority.medium
+          break
+        case 'high':
+          tasks[taskIndex].priority = Priority.high
+          break
+      }
+    },
+    addPriorityFavorite(state, action) {
+      const { priorityValue, taskIndex } = action.payload
+      const favTasks = state.favoriteTasks
+
+      switch (priorityValue) {
+        case 'low':
+          favTasks[taskIndex].priority = Priority.low
+          break
+        case 'medium':
+          favTasks[taskIndex].priority = Priority.medium
+          break
+        case 'high':
+          favTasks[taskIndex].priority = Priority.high
+          break
+      }
     },
   },
 })
@@ -67,4 +109,6 @@ export const {
   removeTaskFromFavorite,
   moveTaskFromFavToTasks,
   updateInputTaskValue,
+  addPriority,
+  addPriorityFavorite,
 } = tasksSlice.actions
