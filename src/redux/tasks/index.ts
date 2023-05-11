@@ -14,12 +14,14 @@ export type TInitialState = {
   tasks: Array<TTasksObj>
   favoriteTasks: Array<TTasksObj>
   inputTaskValue: string
+  inputAddTagValue: string
 }
 
 const initialState: TInitialState = {
   tasks: [],
   favoriteTasks: [],
   inputTaskValue: '',
+  inputAddTagValue: '',
 }
 
 const tasksSlice = createSlice({
@@ -98,6 +100,19 @@ const tasksSlice = createSlice({
           break
       }
     },
+    updateAddTagInputValue(state, action) {
+      const inputAddTagVal = action.payload
+
+      state.inputAddTagValue = inputAddTagVal
+
+    },
+    addTagToTask(state, action) {
+      const { inputAddTagValue, indexOfTask } = action.payload
+      const { tags } = state.tasks[indexOfTask]
+
+      tags.push(inputAddTagValue)
+    },
+    addTagToFavTask(state, action) { },
   },
 })
 
@@ -111,4 +126,7 @@ export const {
   updateInputTaskValue,
   addPriority,
   addPriorityFavorite,
+  updateAddTagInputValue,
+  addTagToTask,
+  addTagToFavTask,
 } = tasksSlice.actions

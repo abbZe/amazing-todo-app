@@ -59,16 +59,8 @@ export const Home: React.FC = () => {
     <section>
       <TodoWrapper>
         <InputForm onSubmit={submitHandler}>
-          <TaskInput
-            type="text"
-            value={inputTaskValue}
-            onChange={taskInputHandler}
-            required
-            autoFocus
-          />
-          <AddTaskBtn color="secondary" type="submit">
-            Add
-          </AddTaskBtn>
+          <TaskInput type="text" value={inputTaskValue} onChange={taskInputHandler} required autoFocus />
+          <AddTaskBtn type="submit">Add</AddTaskBtn>
         </InputForm>
         <TasksWrapper>
           <TasksList />
