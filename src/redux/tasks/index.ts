@@ -112,7 +112,12 @@ const tasksSlice = createSlice({
 
       tags.push(inputAddTagValue)
     },
-    addTagToFavTask(state, action) { },
+    addTagToFavTask(state, action) {
+      const { inputAddTagValue, indexOfTask } = action.payload
+      const { tags } = state.favoriteTasks[indexOfTask]
+
+      tags.push(inputAddTagValue)
+    },
   },
 })
 

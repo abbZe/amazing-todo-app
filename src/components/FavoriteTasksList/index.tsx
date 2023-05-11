@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { selectTasks } from '../../redux/tasks/selectors'
 import styled from 'styled-components'
-import { removeTaskFromFavorite, moveTaskFromFavToTasks, Priority, addPriorityFavorite } from '../../redux/tasks'
+import { removeTaskFromFavorite, moveTaskFromFavToTasks, Priority, addPriorityFavorite, addTagToFavTask } from '../../redux/tasks'
 
 const FavoriteTasksWrapper = styled.div`
   /* Box model */
@@ -15,6 +15,11 @@ const MoveFromFavBtn = styled.button``
 const RemoveTaskBtn = styled.button``
 const SelectPriority = styled.select``
 const OptionPriority = styled.option``
+const AddTagInput = styled.input``
+const InputForm = styled.form``
+const AddTagBtn = styled.button``
+const UnordTagList = styled.ul``
+const UnordTagListItem = styled.li``
 
 export const FavoriteTasksList: React.FC = () => {
   const dispatch = useDispatch()
@@ -30,6 +35,13 @@ export const FavoriteTasksList: React.FC = () => {
     const priorityValue = value.target.value
 
     dispatch(addPriorityFavorite({ priorityValue, taskIndex }))
+  }
+  const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
+    event.preventDefault()
+    const inputAddTagValue = event.target[0].value
+
+    event.target[0].value = ''
+    dispatch(addTagToFavTask({ inputAddTagValue, indexOfTask }))
   }
 
   return (
@@ -53,6 +65,15 @@ export const FavoriteTasksList: React.FC = () => {
               <OptionPriority value="medium">{Priority.medium}</OptionPriority>
               <OptionPriority value="low">{Priority.low}</OptionPriority>
             </SelectPriority>
+            <InputForm onSubmit={event => submitAddTagHandler(event, index)}>
+              <AddTagInput placeholder="add some tags..." />
+              <AddTagBtn type="submit">add tag</AddTagBtn>
+            </InputForm>
+            {obj.tags.map((tag, index) => (
+              <UnordTagList key={index + tag}>
+                <UnordTagListItem>{tag}</UnordTagListItem>
+              </UnordTagList>
+            ))}
           </div>
         ))}
       </UnordList>
