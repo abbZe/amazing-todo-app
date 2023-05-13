@@ -123,6 +123,9 @@ const tasksSlice = createSlice({
     updateTasksOrder(state, action) {
       state.tasks = action.payload
     },
+    updateFavTasksOrder(state, action) {
+      state.favoriteTasks = action.payload
+    },
   },
 })
 
@@ -140,4 +143,5 @@ export const {
   addTagToTask,
   addTagToFavTask,
   updateTasksOrder,
+  updateFavTasksOrder,
 } = tasksSlice.actions

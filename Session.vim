@@ -13,18 +13,18 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +21 src/components/Home/index.tsx
+badd +8 src/components/Home/index.tsx
 badd +14 ~/Documents/myProjects/ts-learning/build/index.html
 badd +16 package.json
 badd +1 src/components/index.ts
 badd +19 tsconfig.json
 badd +1 .prettierrc.json
-badd +16 src/main.tsx
+badd +1 src/main.tsx
 badd +1 src/App.tsx
 badd +1 .eslintrc.cjs
-badd +52 src/components/TasksList/index.tsx
-badd +38 src/components/FavoriteTasksList/index.tsx
-badd +142 src/redux/tasks/index.ts
+badd +76 src/components/TasksList/index.tsx
+badd +5 src/components/FavoriteTasksList/index.tsx
+badd +146 src/redux/tasks/index.ts
 argglobal
 %argdel
 tabnew +setlocal\ bufhidden=wipe
@@ -43,16 +43,15 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 53 - ((32 * winheight(0) + 21) / 43)
+let s:l = 40 - ((18 * winheight(0) + 21) / 43)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 53
-normal! 032|
+keepjumps 40
+normal! 072|
 tabnext
-edit src/components/Home/index.tsx
+edit src/components/FavoriteTasksList/index.tsx
 argglobal
-balt src/redux/tasks/index.ts
 setlocal fdm=manual
 setlocal fde=0
 setlocal fmr={{{,}}}
@@ -63,12 +62,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 21 - ((19 * winheight(0) + 21) / 43)
+let s:l = 29 - ((18 * winheight(0) + 21) / 43)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 21
-normal! 011|
+keepjumps 29
+normal! 064|
 tabnext
 edit src/redux/tasks/index.ts
 argglobal
@@ -83,12 +82,12 @@ setlocal fdn=20
 setlocal fen
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 123 - ((22 * winheight(0) + 21) / 43)
+let s:l = 29 - ((10 * winheight(0) + 21) / 43)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 123
-normal! 020|
+keepjumps 29
+normal! 0
 tabnext 1
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0 && getbufvar(s:wipebuf, '&buftype') isnot# 'terminal'
   silent exe 'bwipe ' . s:wipebuf
@@ -102,7 +101,6 @@ if filereadable(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
 set hlsearch
-nohlsearch
 let g:this_session = v:this_session
 let g:this_obsession = v:this_session
 doautoall SessionLoadPost

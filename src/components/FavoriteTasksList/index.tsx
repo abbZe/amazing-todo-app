@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { v4 } from 'uuid'
 import { selectTasks } from '../../redux/tasks/selectors'
 import styled from 'styled-components'
-import { removeTaskFromFavorite, moveTaskFromFavToTasks, Priority, addPriorityFavorite, addTagToFavTask, addTaskToFavorite, TTasksObj } from '../../redux/tasks'
+import { removeTaskFromFavorite, moveTaskFromFavToTasks, Priority, addPriorityFavorite, addTagToFavTask, updateFavTasksOrder, TTasksObj, updateAddTagInputValue } from '../../redux/tasks'
 import React from "react";
+import { DragDropContext, Draggable, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd'
 
 export const FavoriteTasksList: React.FC = () => {
   const dispatch = useDispatch()
@@ -22,49 +23,63 @@ export const FavoriteTasksList: React.FC = () => {
   }
   const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
     event.preventDefault()
-    // @ts-ignore
-    const inputAddTagValue = event.target[0].value
+    let { value } = event.target[0]
+    const inputAddTagValue = value
 
     dispatch(addTagToFavTask({ inputAddTagValue, indexOfTask }))
-    // @ts-ignore
-    event.target[0].value = ''
+  }
+  const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
+    const items = Array.from(favoriteTasks)
+    const [reorderedItem] = items.splice(result.source.index, 1)
+    if (result.destination) {
+      items.splice(result.destination.index, 0, reorderedItem)
+      dispatch(updateFavTasksOrder(items))
+    }
   }
 
   return (
     <FavoriteTasksWrapper>
       <h2>Favorite tasks</h2>
-      <ul>
-        {favoriteTasks.map((tasksObj: TTasksObj, index: number) => (
-          <li>
-            <div>
-              <UnordListItem>
-                {index + 1}. {tasksObj.task} {tasksObj.priority}
-              </UnordListItem>
-              <MoveFromFavBtn onClick={() => moveTaskBtnHandler(index)}>F</MoveFromFavBtn>
-              <RemoveTaskBtn onClick={() => removeTaskBtnHandler(index)}>D</RemoveTaskBtn>
-              <SelectPriority
-                defaultValue="choose"
-                name="priority"
-                onChange={priorityValue => selectPriorityHandler(priorityValue, index)}
-              >
-                <OptionPriority value="choose" disabled>--приоритет--</OptionPriority>
-                <OptionPriority value="high">{Priority.high}</OptionPriority>
-                <OptionPriority value="medium">{Priority.medium}</OptionPriority>
-                <OptionPriority value="low">{Priority.low}</OptionPriority>
-              </SelectPriority>
-              <InputForm onSubmit={event => submitAddTagHandler(event, index)}>
-                <AddTagInput placeholder="add some tags..." />
-                <AddTagBtn type="submit">add tag</AddTagBtn>
-              </InputForm>
-              {tasksObj.tags.map((tag) => (
-                <UnordTagList key={v4()}>
-                  <UnordTagListItem>{tag}</UnordTagListItem>
-                </UnordTagList>
+      <DragDropContext onDragEnd={onDragEndHandler}>
+        <Droppable droppableId="favTasksUl">
+          {provided => (
+            <ul id="favTasksUl" className="favTasksUl" {...provided.droppableProps} ref={provided.innerRef}>
+              {favoriteTasks.map((obj: TTasksObj, index: number) => (
+                <Draggable key={obj.id} draggableId={obj.id} index={index}>
+                  {provided => (
+                    <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                      {index + 1}. {obj.task} {obj.priority}
+                      <MoveFromFavBtn onClick={() => moveTaskBtnHandler(index)}>F</MoveFromFavBtn>
+                      <RemoveTaskBtn onClick={() => removeTaskBtnHandler(index)}>D</RemoveTaskBtn>
+                      <SelectPriority
+                        defaultValue="choose"
+                        name="priority"
+                        onChange={priorityValue => selectPriorityHandler(priorityValue, index)}
+                      >
+                        <OptionPriority value="choose" disabled>--приоритет--</OptionPriority>
+                        <OptionPriority value="high">{Priority.high}</OptionPriority>
+                        <OptionPriority value="medium">{Priority.medium}</OptionPriority>
+                        <OptionPriority value="low">{Priority.low}</OptionPriority>
+                      </SelectPriority>
+                      <InputForm onSubmit={event => submitAddTagHandler(event, index)}>
+                        <AddTagInput placeholder="add some tags..." required />
+                        <AddTagBtn type="submit">add tag</AddTagBtn>
+                      </InputForm>
+                      {obj.tags.map((tag) => (
+                        <UnordTagList key={v4()}>
+                          <UnordTagListItem>{tag}</UnordTagListItem>
+                        </UnordTagList>
+                      ))}
+                    </li>
+
+                  )}
+                </Draggable>
               ))}
-            </div>
-          </li>
-        ))}
-      </ul>
+              {provided.placeholder}
+            </ul>
+          )}
+        </Droppable>
+      </DragDropContext>
     </FavoriteTasksWrapper >
   )
 }

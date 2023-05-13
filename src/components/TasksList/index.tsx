@@ -7,12 +7,15 @@ import {
   addTagToTask,
   addTaskToFavorite,
   removeTask,
+  updateAddTagInputValue,
+  updateInputTaskValue,
   updateTasksOrder,
 } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors'
 import React, { useRef } from 'react'
 import { v4 } from 'uuid'
 import { DragDropContext, Droppable, Draggable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
+import { SubmitFunction } from 'react-router-dom'
 
 export const TasksList: React.FC = () => {
   const dispatch = useDispatch()
@@ -26,12 +29,12 @@ export const TasksList: React.FC = () => {
 
     dispatch(addPriority({ priorityValue, taskIndex }))
   }
-  const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
+  const submitAddTagHandler = (event: SubmitEvent, indexOfTask: number) => {
     event.preventDefault()
-    const inputAddTagValue = event.target[0].value
+    let { value } = event.target[0]
+    const inputAddTagValue = value
 
     dispatch(addTagToTask({ inputAddTagValue, indexOfTask }))
-    event.target[0].value = ''
   }
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -46,9 +49,9 @@ export const TasksList: React.FC = () => {
     <PlainTasksWrapper>
       <h2>Tasks</h2>
       <DragDropContext onDragEnd={onDragEndHandler}>
-        <Droppable droppableId="123">
+        <Droppable droppableId="tasksUl">
           {provided => (
-            <ul id="123" className="123" {...provided.droppableProps} ref={provided.innerRef}>
+            <ul id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
               {tasks.map((obj: TTasksObj, index: number) => (
                 <Draggable key={obj.id} draggableId={obj.id} index={index}>
                   {provided => (
@@ -69,7 +72,7 @@ export const TasksList: React.FC = () => {
                         <OptionPriority value="low">{Priority.low}</OptionPriority>
                       </SelectPriority>
                       <InputForm onSubmit={event => submitAddTagHandler(event, index)}>
-                        <AddTagInput placeholder="add some tags..." />
+                        <AddTagInput placeholder="add some tags..." required />
                         <AddTagBtn type="submit">add tag</AddTagBtn>
                       </InputForm>
                       {obj.tags.map(tag => (
