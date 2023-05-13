@@ -5,32 +5,7 @@ import { selectTasks } from '../../redux/tasks/selectors'
 import { TTasksObj, addTask, updateInputTaskValue } from '../../redux/tasks'
 import { TasksList } from '../TasksList'
 import { FavoriteTasksList } from '../FavoriteTasksList'
-
-const TodoWrapper = styled.div`
-  /* Box model */
-  display: grid;
-  place-content: center;
-  padding: 2rem;
-  gap: 1rem;
-  /* Typography */
-  color: #268bd2;
-  font-size: 1.4rem;
-  /* Visual */
-  background-color: #262626;
-`
-const InputForm = styled.form`
-  /* Box model */
-  display: flex;
-  gap: 1rem;
-`
-const TasksWrapper = styled.div`
-  /* Box model */
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-`
-const TaskInput = styled.input``
-const AddTaskBtn = styled.button``
+import { v4 } from 'uuid'
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch()
@@ -44,6 +19,7 @@ export const Home: React.FC = () => {
     event.preventDefault()
     const inputValue = (event.target[0] as HTMLInputElement).value
     const tasksObj: TTasksObj = {
+      id: v4(),
       task: inputValue,
       priority: '',
       tags: [],
@@ -70,3 +46,29 @@ export const Home: React.FC = () => {
     </section>
   )
 }
+
+const TodoWrapper = styled.div`
+  /* Box model */
+  display: grid;
+  place-content: center;
+  padding: 2rem;
+  gap: 1rem;
+  /* Typography */
+  color: #268bd2;
+  font-size: 1.4rem;
+  /* Visual */
+  background-color: #262626;
+`
+const InputForm = styled.form`
+  /* Box model */
+  display: flex;
+  gap: 1rem;
+`
+const TasksWrapper = styled.div`
+  /* Box model */
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+`
+const TaskInput = styled.input``
+const AddTaskBtn = styled.button``

@@ -6,6 +6,7 @@ export enum Priority {
   'high' = 'высокий',
 }
 export type TTasksObj = {
+  id: string
   task: string
   priority: string
   tags: Array<string>
@@ -15,6 +16,7 @@ export type TInitialState = {
   favoriteTasks: Array<TTasksObj>
   inputTaskValue: string
   inputAddTagValue: string
+  tasksSummary: number
 }
 
 const initialState: TInitialState = {
@@ -22,6 +24,7 @@ const initialState: TInitialState = {
   favoriteTasks: [],
   inputTaskValue: '',
   inputAddTagValue: '',
+  tasksSummary: 0,
 }
 
 const tasksSlice = createSlice({
@@ -29,39 +32,39 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {
     addTask(state, action: PayloadAction<TTasksObj>) {
-      const tasks = state.tasks
       const valueFromTaskInput = action.payload
+      let { tasks } = state
 
       tasks.push(valueFromTaskInput)
+      state.tasksSummary++
     },
     removeTask(state, action: PayloadAction<number>) {
-      const tasks = state.tasks
+      const { tasks } = state
       const indexOfTaskToRemove = action.payload
 
       tasks.splice(indexOfTaskToRemove, 1)
     },
-    addTaskToFavorite(state, action: PayloadAction<number>) {
-      const favTasks = state.favoriteTasks
-      const tasks = state.tasks
+    addTaskToFavorite(state, action: PayloadAction<any>) {
+      console.log(action.payload)
+      const { favoriteTasks, tasks } = state
       const indexOfTaskToAdd = action.payload
 
-      favTasks.push(tasks[indexOfTaskToAdd])
+      favoriteTasks.push(tasks[indexOfTaskToAdd])
       tasks.splice(indexOfTaskToAdd, 1)
     },
     removeTaskFromFavorite(state, action: PayloadAction<number>) {
       const indexOfTaskToRemove = action.payload
-      const favTasks = state.favoriteTasks
+      const { favoriteTasks } = state
 
-      favTasks.splice(indexOfTaskToRemove, 1)
+      favoriteTasks.splice(indexOfTaskToRemove, 1)
     },
     moveTaskFromFavToTasks(state, action: PayloadAction<number>) {
       const indexOfTaskToMove = action.payload
-      const favTasks = state.favoriteTasks
-      const tasks = state.tasks
-      const taskToMove: TTasksObj = favTasks[indexOfTaskToMove]
+      const { favoriteTasks, tasks } = state
+      const taskToMove: TTasksObj = favoriteTasks[indexOfTaskToMove]
 
       tasks.push(taskToMove)
-      favTasks.splice(indexOfTaskToMove, 1)
+      favoriteTasks.splice(indexOfTaskToMove, 1)
     },
     updateInputTaskValue(state, action: PayloadAction<string>) {
       const valueFromTaskInput = action.payload
@@ -70,7 +73,7 @@ const tasksSlice = createSlice({
     },
     addPriority(state, action) {
       const { priorityValue, taskIndex } = action.payload
-      const tasks = state.tasks
+      const { tasks } = state
 
       switch (priorityValue) {
         case 'low':
@@ -104,7 +107,6 @@ const tasksSlice = createSlice({
       const inputAddTagVal = action.payload
 
       state.inputAddTagValue = inputAddTagVal
-
     },
     addTagToTask(state, action) {
       const { inputAddTagValue, indexOfTask } = action.payload
@@ -117,6 +119,9 @@ const tasksSlice = createSlice({
       const { tags } = state.favoriteTasks[indexOfTask]
 
       tags.push(inputAddTagValue)
+    },
+    updateTasksOrder(state, action) {
+      state.tasks = action.payload
     },
   },
 })
@@ -134,4 +139,5 @@ export const {
   updateAddTagInputValue,
   addTagToTask,
   addTagToFavTask,
+  updateTasksOrder,
 } = tasksSlice.actions
