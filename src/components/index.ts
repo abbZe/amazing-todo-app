@@ -1,2 +1,6 @@
 export * from './Home/'
 export * from './Footer/'
+export * from './TasksList'
+export * from './Tasks'
+export * from './FavoriteTasksList'
+export * from './SearchResults'

@@ -48,7 +48,7 @@ export const FavoriteTasksList: React.FC = () => {
                 <Draggable key={obj.id} draggableId={obj.id} index={index}>
                   {provided => (
                     <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                      {index + 1}. {obj.task} {obj.priority}
+                      {index + 1}. {obj.taskValue} {obj.priority}
                       <MoveFromFavBtn onClick={() => moveTaskBtnHandler(index)}>F</MoveFromFavBtn>
                       <RemoveTaskBtn onClick={() => removeTaskBtnHandler(index)}>D</RemoveTaskBtn>
                       <SelectPriority
@@ -90,7 +90,6 @@ const FavoriteTasksWrapper = styled.div`
   flex-direction: column;
   gap: 1rem;
 `
-const UnordListItem = styled.ul``
 const MoveFromFavBtn = styled.button``
 const RemoveTaskBtn = styled.button``
 const SelectPriority = styled.select``

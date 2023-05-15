@@ -2,14 +2,14 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { selectTasks } from '../../redux/tasks/selectors'
-import { TTasksObj, addTask, updateInputTaskValue } from '../../redux/tasks'
+import { TTasksObj, addTask, updateInputTaskValue, updateSearchInputValue } from '../../redux/tasks'
 import { TasksList } from '../TasksList'
 import { FavoriteTasksList } from '../FavoriteTasksList'
 import { v4 } from 'uuid'
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch()
-  const { inputTaskValue } = useSelector(selectTasks)
+  const { inputTaskValue, inputSearchValue } = useSelector(selectTasks)
 
   const taskInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
@@ -20,7 +20,7 @@ export const Home: React.FC = () => {
     const inputValue = (event.target[0] as HTMLInputElement).value
     const tasksObj: TTasksObj = {
       id: v4(),
-      task: inputValue,
+      taskValue: inputValue,
       priority: '',
       tags: [],
     }
@@ -30,12 +30,27 @@ export const Home: React.FC = () => {
       dispatch(updateInputTaskValue(''))
     } else alert('input is empty')
   }
+  const searchInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const searchInputValue = event.target.value
+
+    dispatch(updateSearchInputValue(searchInputValue))
+  }
 
   return (
     <section>
       <TodoWrapper>
+        <InputForm>
+          <SearchInput value={inputSearchValue} type="text" onChange={searchInputHandler} placeholder="ищем..." />
+        </InputForm>
         <InputForm onSubmit={submitHandler}>
-          <TaskInput type="text" value={inputTaskValue} onChange={taskInputHandler} required autoFocus />
+          <TaskInput
+            type="text"
+            value={inputTaskValue}
+            onChange={taskInputHandler}
+            required
+            autoFocus
+            placeholder="введите задачу..."
+          />
           <AddTaskBtn type="submit">Add</AddTaskBtn>
         </InputForm>
         <TasksWrapper>
@@ -72,3 +87,4 @@ const TasksWrapper = styled.div`
 `
 const TaskInput = styled.input``
 const AddTaskBtn = styled.button``
+const SearchInput = styled.input``

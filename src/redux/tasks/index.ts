@@ -7,24 +7,26 @@ export enum Priority {
 }
 export type TTasksObj = {
   id: string
-  task: string
+  taskValue: string
   priority: string
   tags: Array<string>
 }
 export type TInitialState = {
   tasks: Array<TTasksObj>
   favoriteTasks: Array<TTasksObj>
+  searchResults: Array<TTasksObj>
   inputTaskValue: string
   inputAddTagValue: string
-  tasksSummary: number
+  inputSearchValue: string
 }
 
 const initialState: TInitialState = {
   tasks: [],
   favoriteTasks: [],
+  searchResults: [],
   inputTaskValue: '',
   inputAddTagValue: '',
-  tasksSummary: 0,
+  inputSearchValue: '',
 }
 
 const tasksSlice = createSlice({
@@ -36,7 +38,6 @@ const tasksSlice = createSlice({
       let { tasks } = state
 
       tasks.push(valueFromTaskInput)
-      state.tasksSummary++
     },
     removeTask(state, action: PayloadAction<number>) {
       const { tasks } = state
@@ -45,7 +46,6 @@ const tasksSlice = createSlice({
       tasks.splice(indexOfTaskToRemove, 1)
     },
     addTaskToFavorite(state, action: PayloadAction<any>) {
-      console.log(action.payload)
       const { favoriteTasks, tasks } = state
       const indexOfTaskToAdd = action.payload
 
@@ -126,22 +126,33 @@ const tasksSlice = createSlice({
     updateFavTasksOrder(state, action) {
       state.favoriteTasks = action.payload
     },
+    updateSearchInputValue(state, action) {
+      state.inputSearchValue = action.payload
+      if (state.inputSearchValue) {
+        state.searchResults = state.tasks.filter(task =>
+          task.taskValue.toLowerCase().match(state.inputSearchValue.toLowerCase())
+        )
+      } else {
+        state.searchResults = []
+      }
+    },
   },
 })
 
 export default tasksSlice.reducer
 export const {
   addTask,
-  removeTask,
   addTaskToFavorite,
-  removeTaskFromFavorite,
-  moveTaskFromFavToTasks,
-  updateInputTaskValue,
   addPriority,
   addPriorityFavorite,
-  updateAddTagInputValue,
   addTagToTask,
   addTagToFavTask,
+  removeTask,
+  removeTaskFromFavorite,
+  moveTaskFromFavToTasks,
   updateTasksOrder,
   updateFavTasksOrder,
+  updateSearchInputValue,
+  updateInputTaskValue,
+  updateAddTagInputValue,
 } = tasksSlice.actions
