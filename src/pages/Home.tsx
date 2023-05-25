@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { selectTasks } from '../redux/tasks/selectors.ts'
 import { TTasksObj, addTask, updateInputTaskValue, updateSearchInputValue } from '../redux/tasks'
-import { TasksList } from '../containers'
-import { FavoriteTasksList } from '../containers'
+import { Tasks } from '../containers'
 import { v4 } from 'uuid'
 
 export const Home: React.FC = () => {
@@ -38,51 +37,28 @@ export const Home: React.FC = () => {
 
   return (
     <section>
-      <TodoWrapper>
-        <InputForm>
-          <SearchInput value={inputSearchValue} type="text" onChange={searchInputHandler} placeholder="ищем..." />
-        </InputForm>
-        <InputForm onSubmit={submitHandler}>
-          <TaskInput
-            type="text"
-            value={inputTaskValue}
-            onChange={taskInputHandler}
-            required
-            autoFocus
-            placeholder="введите задачу..."
-          />
-          <AddTaskBtn type="submit">Add</AddTaskBtn>
-        </InputForm>
-        <TasksWrapper>
-          <TasksList />
-          <FavoriteTasksList />
-        </TasksWrapper>
-      </TodoWrapper>
+      <SearchInput value={inputSearchValue} type="text" onChange={searchInputHandler} placeholder="ищем..." />
+
+      <InputForm onSubmit={submitHandler}>
+        <TaskInput
+          type="text"
+          value={inputTaskValue}
+          onChange={taskInputHandler}
+          required
+          autoFocus
+          placeholder="введите задачу..."
+        />
+        <AddTaskBtn type="submit">Add</AddTaskBtn>
+      </InputForm>
+
+      <Tasks />
     </section>
   )
 }
 
-const TodoWrapper = styled.div`
-  /* Box model */
-  display: grid;
-  place-content: center;
-  padding: 2rem;
-  gap: 1rem;
-  /* Typography */
-  color: #268bd2;
-  font-size: 1.4rem;
-  /* Visual */
-  background-color: #262626;
-`
 const InputForm = styled.form`
   /* Box model */
   display: flex;
-  gap: 1rem;
-`
-const TasksWrapper = styled.div`
-  /* Box model */
-  display: flex;
-  justify-content: space-between;
   gap: 1rem;
 `
 const TaskInput = styled.input``

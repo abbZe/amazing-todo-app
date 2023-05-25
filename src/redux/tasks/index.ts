@@ -13,7 +13,6 @@ export type TTasksObj = {
 }
 export type TInitialState = {
   tasks: Array<TTasksObj>
-  favoriteTasks: Array<TTasksObj>
   searchResults: Array<TTasksObj>
   inputTaskValue: string
   inputAddTagValue: string
@@ -22,7 +21,6 @@ export type TInitialState = {
 
 const initialState: TInitialState = {
   tasks: [],
-  favoriteTasks: [],
   searchResults: [],
   inputTaskValue: '',
   inputAddTagValue: '',
@@ -45,27 +43,6 @@ const tasksSlice = createSlice({
 
       tasks.splice(indexOfTaskToRemove, 1)
     },
-    addTaskToFavorite(state, action: PayloadAction<any>) {
-      const { favoriteTasks, tasks } = state
-      const indexOfTaskToAdd = action.payload
-
-      favoriteTasks.push(tasks[indexOfTaskToAdd])
-      tasks.splice(indexOfTaskToAdd, 1)
-    },
-    removeTaskFromFavorite(state, action: PayloadAction<number>) {
-      const indexOfTaskToRemove = action.payload
-      const { favoriteTasks } = state
-
-      favoriteTasks.splice(indexOfTaskToRemove, 1)
-    },
-    moveTaskFromFavToTasks(state, action: PayloadAction<number>) {
-      const indexOfTaskToMove = action.payload
-      const { favoriteTasks, tasks } = state
-      const taskToMove: TTasksObj = favoriteTasks[indexOfTaskToMove]
-
-      tasks.push(taskToMove)
-      favoriteTasks.splice(indexOfTaskToMove, 1)
-    },
     updateInputTaskValue(state, action: PayloadAction<string>) {
       const valueFromTaskInput = action.payload
 
@@ -87,22 +64,6 @@ const tasksSlice = createSlice({
           break
       }
     },
-    addPriorityFavorite(state, action) {
-      const { priorityValue, taskIndex } = action.payload
-      const favTasks = state.favoriteTasks
-
-      switch (priorityValue) {
-        case 'low':
-          favTasks[taskIndex].priority = Priority.low
-          break
-        case 'medium':
-          favTasks[taskIndex].priority = Priority.medium
-          break
-        case 'high':
-          favTasks[taskIndex].priority = Priority.high
-          break
-      }
-    },
     updateAddTagInputValue(state, action) {
       const inputAddTagVal = action.payload
 
@@ -114,17 +75,8 @@ const tasksSlice = createSlice({
 
       tags.push(inputAddTagValue)
     },
-    addTagToFavTask(state, action) {
-      const { inputAddTagValue, indexOfTask } = action.payload
-      const { tags } = state.favoriteTasks[indexOfTask]
-
-      tags.push(inputAddTagValue)
-    },
     updateTasksOrder(state, action) {
       state.tasks = action.payload
-    },
-    updateFavTasksOrder(state, action) {
-      state.favoriteTasks = action.payload
     },
     updateSearchInputValue(state, action) {
       state.inputSearchValue = action.payload
@@ -142,16 +94,10 @@ const tasksSlice = createSlice({
 export default tasksSlice.reducer
 export const {
   addTask,
-  addTaskToFavorite,
   addPriority,
-  addPriorityFavorite,
   addTagToTask,
-  addTagToFavTask,
   removeTask,
-  removeTaskFromFavorite,
-  moveTaskFromFavToTasks,
   updateTasksOrder,
-  updateFavTasksOrder,
   updateSearchInputValue,
   updateInputTaskValue,
   updateAddTagInputValue,

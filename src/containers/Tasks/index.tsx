@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { updateTasksOrder } from '../../redux/tasks'
+import { addPriority, addTagToTask, removeTask, updateTasksOrder } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
-import { Tasks, SearchResults } from '../../components'
+import { TasksList, SearchResults } from '../../components'
 
-export const TasksList: React.FC = () => {
+export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
   const { tasks, inputSearchValue } = useSelector(selectTasks)
 
@@ -19,6 +19,22 @@ export const TasksList: React.FC = () => {
       dispatch(updateTasksOrder(items))
     }
   }
+  const removeTaskHandler = (taskIndex: number) => dispatch(removeTask(taskIndex))
+  const selectPriorityHandler = (value: React.ChangeEvent<HTMLSelectElement>, taskIndex: number) => {
+    const priorityValue = value.target.value
+
+    dispatch(addPriority({ priorityValue, taskIndex }))
+  }
+  const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
+    event.preventDefault()
+    if (event.target) {
+      // @ts-ignore
+      const { value } = event.target[0] as HTMLInputElement
+      const inputAddTagValue = value
+
+      dispatch(addTagToTask({ inputAddTagValue, indexOfTask }))
+    }
+  }
 
   return (
     <PlainTasksWrapper>
@@ -27,7 +43,7 @@ export const TasksList: React.FC = () => {
         <Droppable droppableId="tasksUl">
           {provided => (
             <ul id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
-              {inputSearchValue ? <SearchResults /> : <Tasks />}
+              {inputSearchValue ? <SearchResults /> : <TasksList tasks={tasks} removeTaskHandler={removeTaskHandler} selectPriorityHandler={selectPriorityHandler} submitAddTagHandler={submitAddTagHandler} />}
               {provided.placeholder}
             </ul>
           )}

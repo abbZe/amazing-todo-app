@@ -1,2 +1,2 @@
-export * from './Tasks'
+export * from './TasksList'
 export * from './SearchResults'

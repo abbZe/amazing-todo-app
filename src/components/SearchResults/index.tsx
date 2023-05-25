@@ -1,7 +1,7 @@
 
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { Priority, TTasksObj, addPriority, addTagToTask, addTaskToFavorite, removeTask } from '../../redux/tasks'
+import { Priority, TTasksObj, addPriority, addTagToTask, removeTask } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors'
 import React, { useRef } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
@@ -12,7 +12,6 @@ export const SearchResults: React.FC = () => {
 
   const { searchResults } = useSelector(selectTasks)
 
-  const addToFavoriteBtnHandler = (taskIndex: number) => dispatch(addTaskToFavorite(taskIndex))
   const removeTaskHandler = (taskIndex: number) => dispatch(removeTask(taskIndex))
   const selectPriorityHandler = (value: React.ChangeEvent<HTMLSelectElement>, taskIndex: number) => {
     const priorityValue = value.target.value
@@ -22,6 +21,7 @@ export const SearchResults: React.FC = () => {
   const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
     event.preventDefault()
     if (event.target) {
+      // @ts-ignore
       let { value } = event.target[0] as HTMLInputElement
       const inputAddTagValue = value
 
@@ -36,7 +36,6 @@ export const SearchResults: React.FC = () => {
           {provided => (
             <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
               {index + 1}. {obj.taskValue} {obj.priority}
-              <AddToFavoriteBtn onClick={() => addToFavoriteBtnHandler(index)}>F</AddToFavoriteBtn>
               <RemoveTaskBtn onClick={() => removeTaskHandler(index)}>D</RemoveTaskBtn>
               <SelectPriority
                 defaultValue="choose"
@@ -67,7 +66,6 @@ export const SearchResults: React.FC = () => {
   )
 }
 
-const AddToFavoriteBtn = styled.button``
 const RemoveTaskBtn = styled.button``
 const SelectPriority = styled.select``
 const OptionPriority = styled.option``
