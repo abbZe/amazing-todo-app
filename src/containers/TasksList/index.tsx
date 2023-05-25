@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { updateTasksOrder } from '../../redux/tasks'
-import { selectTasks } from '../../redux/tasks/selectors'
+import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
-import { Tasks, SearchResults } from '..'
+import { Tasks, SearchResults } from '../../components'
 
 export const TasksList: React.FC = () => {
   const dispatch = useDispatch()

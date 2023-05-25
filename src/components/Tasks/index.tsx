@@ -21,7 +21,8 @@ export const Tasks: React.FC = () => {
   const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
     event.preventDefault()
     if (event.target) {
-      let { value } = event.target[0] as HTMLInputElement
+      // @ts-ignore
+      const { value } = event.target[0] as HTMLInputElement
       const inputAddTagValue = value
 
       dispatch(addTagToTask({ inputAddTagValue, indexOfTask }))

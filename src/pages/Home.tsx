@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { selectTasks } from '../../redux/tasks/selectors'
-import { TTasksObj, addTask, updateInputTaskValue, updateSearchInputValue } from '../../redux/tasks'
-import { TasksList } from '../TasksList'
-import { FavoriteTasksList } from '../FavoriteTasksList'
+import { selectTasks } from '../redux/tasks/selectors.ts'
+import { TTasksObj, addTask, updateInputTaskValue, updateSearchInputValue } from '../redux/tasks'
+import { TasksList } from '../containers'
+import { FavoriteTasksList } from '../containers'
 import { v4 } from 'uuid'
 
 export const Home: React.FC = () => {

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 } from 'uuid'
-import { selectTasks } from '../../redux/tasks/selectors'
+import { selectTasks } from '../../redux/tasks/selectors.ts'
 import styled from 'styled-components'
 import {
   removeTaskFromFavorite,
@@ -10,7 +10,6 @@ import {
   addTagToFavTask,
   updateFavTasksOrder,
   TTasksObj,
-  updateAddTagInputValue,
 } from '../../redux/tasks'
 import React from 'react'
 import { DragDropContext, Draggable, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd'
@@ -32,7 +31,8 @@ export const FavoriteTasksList: React.FC = () => {
   }
   const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
     event.preventDefault()
-    let { value } = event.target[0]
+    // @ts-ignore
+    const { value } = event.target[0]
     const inputAddTagValue = value
 
     dispatch(addTagToFavTask({ inputAddTagValue, indexOfTask }))
