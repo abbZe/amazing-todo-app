@@ -2,8 +2,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { v4 } from 'uuid'
 import { selectTasks } from '../../redux/tasks/selectors'
 import styled from 'styled-components'
-import { removeTaskFromFavorite, moveTaskFromFavToTasks, Priority, addPriorityFavorite, addTagToFavTask, updateFavTasksOrder, TTasksObj, updateAddTagInputValue } from '../../redux/tasks'
-import React from "react";
+import {
+  removeTaskFromFavorite,
+  moveTaskFromFavToTasks,
+  Priority,
+  addPriorityFavorite,
+  addTagToFavTask,
+  updateFavTasksOrder,
+  TTasksObj,
+  updateAddTagInputValue,
+} from '../../redux/tasks'
+import React from 'react'
 import { DragDropContext, Draggable, DropResult, Droppable, OnDragEndResponder } from 'react-beautiful-dnd'
 
 export const FavoriteTasksList: React.FC = () => {
@@ -56,7 +65,9 @@ export const FavoriteTasksList: React.FC = () => {
                         name="priority"
                         onChange={priorityValue => selectPriorityHandler(priorityValue, index)}
                       >
-                        <OptionPriority value="choose" disabled>--приоритет--</OptionPriority>
+                        <OptionPriority value="choose" disabled>
+                          --приоритет--
+                        </OptionPriority>
                         <OptionPriority value="high">{Priority.high}</OptionPriority>
                         <OptionPriority value="medium">{Priority.medium}</OptionPriority>
                         <OptionPriority value="low">{Priority.low}</OptionPriority>
@@ -65,13 +76,12 @@ export const FavoriteTasksList: React.FC = () => {
                         <AddTagInput placeholder="add some tags..." required />
                         <AddTagBtn type="submit">add tag</AddTagBtn>
                       </InputForm>
-                      {obj.tags.map((tag) => (
+                      {obj.tags.map(tag => (
                         <UnordTagList key={v4()}>
                           <UnordTagListItem>{tag}</UnordTagListItem>
                         </UnordTagList>
                       ))}
                     </li>
-
                   )}
                 </Draggable>
               ))}
@@ -80,7 +90,7 @@ export const FavoriteTasksList: React.FC = () => {
           )}
         </Droppable>
       </DragDropContext>
-    </FavoriteTasksWrapper >
+    </FavoriteTasksWrapper>
   )
 }
 
