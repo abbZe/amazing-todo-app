@@ -13,7 +13,7 @@ if &shortmess =~ 'A'
 else
   set shortmess=aoO
 endif
-badd +45 src/components/Home/index.tsx
+badd +45 src/components/Home/Home.tsx
 badd +14 ~/Documents/myProjects/ts-learning/build/index.html
 badd +16 package.json
 badd +6 src/components/index.ts
@@ -22,12 +22,12 @@ badd +1 .prettierrc.json
 badd +16 src/main.tsx
 badd +1 src/App.tsx
 badd +1 .eslintrc.cjs
-badd +30 src/components/TasksList/index.tsx
-badd +26 src/components/FavoriteTasksList/index.tsx
+badd +30 src/components/TasksList/Home.tsx
+badd +26 src/components/FavoriteTasksList/Home.tsx
 badd +132 src/redux/tasks/index.ts
-badd +1 src/components/Footer/index.tsx
-badd +49 src/components/Tasks/index.tsx
-badd +6 src/components/SearchResults/index.tsx
+badd +1 src/components/Footer/Home.tsx
+badd +49 src/components/Tasks/Home.tsx
+badd +6 src/components/SearchResults/Home.tsx
 badd +1 src/redux/store.ts
 argglobal
 %argdel
@@ -52,7 +52,7 @@ normal! zt
 keepjumps 123
 normal! 037|
 tabnext
-edit src/components/TasksList/index.tsx
+edit src/components/TasksList/Home.tsx
 argglobal
 setlocal fdm=manual
 setlocal fde=0
