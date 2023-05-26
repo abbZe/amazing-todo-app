@@ -5,17 +5,15 @@ type TagsListProps = {
   obj: TTasksObj
 }
 
-export const TagsList: React.FC<TagsListProps> = ({ obj }) => {
-  return (
-    <>
-      {obj.tags.map((tag, index) => (
-        <UnordTagList key={index}>
-          <UnordTagListItem>{tag}</UnordTagListItem>
-        </UnordTagList>
-      ))}
-    </>
-  )
-}
+export const TagsList: React.FC<TagsListProps> = ({ obj }) => (
+  <>
+    {obj.tags.map((tag, index) => (
+      <UnordTagList key={index}>
+        <UnordTagListItem>{tag}</UnordTagListItem>
+      </UnordTagList>
+    ))}
+  </>
+)
 
 const UnordTagList = styled.ul``
 const UnordTagListItem = styled.li``

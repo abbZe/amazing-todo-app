@@ -1,2 +1,4 @@
 export * from './TasksList'
-export * from './SearchResults'
+export * from './TaskPrioritySelector'
+export * from './TagsList'
+export * from './AddTagForm'

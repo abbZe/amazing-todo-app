@@ -4,11 +4,11 @@ import { addPriority, addTagToTask, removeTask, updateTasksOrder } from '../../r
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
-import { TasksList, SearchResults } from '../../components'
+import { TasksList } from '../../components'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
-  const { tasks, inputSearchValue } = useSelector(selectTasks)
+  const { tasks, inputSearchValue, searchResults } = useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -43,7 +43,21 @@ export const Tasks: React.FC = () => {
         <Droppable droppableId="tasksUl">
           {provided => (
             <ul id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
-              {inputSearchValue ? <SearchResults /> : <TasksList tasks={tasks} removeTaskHandler={removeTaskHandler} selectPriorityHandler={selectPriorityHandler} submitAddTagHandler={submitAddTagHandler} />}
+              {inputSearchValue ? (
+                <TasksList
+                  tasks={searchResults}
+                  removeTaskHandler={removeTaskHandler}
+                  selectPriorityHandler={selectPriorityHandler}
+                  submitAddTagHandler={submitAddTagHandler}
+                />
+              ) : (
+                <TasksList
+                  tasks={tasks}
+                  removeTaskHandler={removeTaskHandler}
+                  selectPriorityHandler={selectPriorityHandler}
+                  submitAddTagHandler={submitAddTagHandler}
+                />
+              )}
               {provided.placeholder}
             </ul>
           )}
