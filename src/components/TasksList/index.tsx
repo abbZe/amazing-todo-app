@@ -9,6 +9,7 @@ type TasksListProps = {
   removeTaskHandler: (index: number) => void
   selectPriorityHandler: (priorityValue: React.ChangeEvent<HTMLSelectElement>, index: number) => void
   submitAddTagHandler: (event: React.FormEvent<HTMLFormElement>, index: number) => void
+  addToFavHandler: (index: number) => void
 }
 
 export const TasksList: React.FC<TasksListProps> = ({
@@ -16,14 +17,16 @@ export const TasksList: React.FC<TasksListProps> = ({
   removeTaskHandler,
   selectPriorityHandler,
   submitAddTagHandler,
+  addToFavHandler,
 }) => (
   <>
     {tasks.map((obj: TTasksObj, index: number) => (
       <Draggable key={obj.id} draggableId={obj.id} index={index}>
         {provided => (
           <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-            {index + 1}. {obj.taskValue} {obj.priority}
+            {index + 1}. {obj.taskValue} {obj.priority} {obj.isFavorite.toString()}
             <RemoveTaskBtn onClick={() => removeTaskHandler(index)}>Delete</RemoveTaskBtn>
+            <AddToFavBtn onClick={() => addToFavHandler(index)}>add to fav</AddToFavBtn>
             <TaskPrioritySelector selectPriorityHandler={selectPriorityHandler} index={index} />
             <AddTagForm submitAddTagHandler={submitAddTagHandler} index={index} />
             <TagsList obj={obj} />
@@ -35,3 +38,4 @@ export const TasksList: React.FC<TasksListProps> = ({
 )
 
 const RemoveTaskBtn = styled.button``
+const AddToFavBtn = styled.button``

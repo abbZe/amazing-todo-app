@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { addPriority, addTagToTask, removeTask, updateTasksOrder } from '../../redux/tasks'
+import { addPriority, addTagToTask, addTaskToFav, removeTask, updateTasksOrder } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
@@ -35,6 +35,9 @@ export const Tasks: React.FC = () => {
       dispatch(addTagToTask({ inputAddTagValue, indexOfTask }))
     }
   }
+  const addToFavHandler = (index: number) => {
+    dispatch(addTaskToFav(index))
+  }
 
   return (
     <PlainTasksWrapper>
@@ -49,6 +52,7 @@ export const Tasks: React.FC = () => {
                   removeTaskHandler={removeTaskHandler}
                   selectPriorityHandler={selectPriorityHandler}
                   submitAddTagHandler={submitAddTagHandler}
+                  addToFavHandler={addToFavHandler}
                 />
               ) : (
                 <TasksList
@@ -56,6 +60,7 @@ export const Tasks: React.FC = () => {
                   removeTaskHandler={removeTaskHandler}
                   selectPriorityHandler={selectPriorityHandler}
                   submitAddTagHandler={submitAddTagHandler}
+                  addToFavHandler={addToFavHandler}
                 />
               )}
               {provided.placeholder}

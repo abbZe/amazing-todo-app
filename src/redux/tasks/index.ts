@@ -10,6 +10,7 @@ export type TTasksObj = {
   taskValue: string
   priority: string
   tags: Array<string>
+  isFavorite: boolean
 }
 export type TInitialState = {
   tasks: Array<TTasksObj>
@@ -88,6 +89,12 @@ const tasksSlice = createSlice({
         state.searchResults = []
       }
     },
+    addTaskToFav(state, action) {
+      const indexOfTask = action.payload
+      let task = state.tasks[indexOfTask]
+
+      task.isFavorite ? (task.isFavorite = false) : (task.isFavorite = true)
+    },
   },
 })
 
@@ -96,6 +103,7 @@ export const {
   addTask,
   addPriority,
   addTagToTask,
+  addTaskToFav,
   removeTask,
   updateTasksOrder,
   updateSearchInputValue,

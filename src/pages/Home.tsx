@@ -22,6 +22,7 @@ export const Home: React.FC = () => {
       taskValue: inputValue,
       priority: '',
       tags: [],
+      isFavorite: false,
     }
 
     if (inputValue) {
