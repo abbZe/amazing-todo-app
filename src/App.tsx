@@ -4,13 +4,15 @@ import styled from 'styled-components'
 
 import MainLayout from './layouts/MainLayout.tsx'
 import './App.css'
-import { Home } from './pages/Home.tsx'
+import { Home, NotFound, TaskPage } from './pages'
 
 const App: React.FC = () => (
   <AppWrapper>
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
+        <Route path="task/:id" element={<TaskPage />} />
+        <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
   </AppWrapper>

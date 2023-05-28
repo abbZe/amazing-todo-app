@@ -1,5 +1,5 @@
 import React from 'react'
 
 export const Footer: React.FC = () => {
-  return <>Footer </>
+  return <>created by Dmitrii "abbZe" Titarenko</>
 }

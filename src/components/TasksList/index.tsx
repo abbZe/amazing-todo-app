@@ -3,6 +3,7 @@ import { TTasksObj } from '../../redux/tasks'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { AddTagForm, TagsList, TaskPrioritySelector } from '..'
+import { Link } from 'react-router-dom'
 
 type TasksListProps = {
   tasks: Array<TTasksObj>
@@ -24,7 +25,9 @@ export const TasksList: React.FC<TasksListProps> = ({
       <Draggable key={obj.id} draggableId={obj.id} index={index}>
         {provided => (
           <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-            {index + 1}. {obj.taskValue} {obj.priority} {obj.isFavorite.toString()}
+            <Link to={`/task/${obj.id}`}>
+              {index + 1}. {obj.taskValue} {obj.priority} {obj.isFavorite.toString()}
+            </Link>
             <RemoveTaskBtn onClick={() => removeTaskHandler(index)}>Delete</RemoveTaskBtn>
             <AddToFavBtn onClick={() => addToFavHandler(index)}>add to fav</AddToFavBtn>
             <TaskPrioritySelector selectPriorityHandler={selectPriorityHandler} index={index} />
