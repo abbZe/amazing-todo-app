@@ -26,7 +26,7 @@ export const TasksList: React.FC<TasksListProps> = ({
         {provided => (
           <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
             <Link to={`/task/${obj.id}`}>
-              {index + 1}. {obj.taskValue} {obj.priority} {obj.isFavorite.toString()}
+              {index + 1}. {obj.taskTitleValue} {obj.priority} {obj.isFavorite.toString()}
             </Link>
             <RemoveTaskBtn onClick={() => removeTaskHandler(index)}>Delete</RemoveTaskBtn>
             <AddToFavBtn onClick={() => addToFavHandler(index)}>add to fav</AddToFavBtn>

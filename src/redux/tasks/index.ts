@@ -7,7 +7,8 @@ export enum Priority {
 }
 export type TTasksObj = {
   id: string
-  taskValue: string
+  taskTitleValue: string
+  taskBodyValue: string
   priority: string
   tags: Array<string>
   isFavorite: boolean
@@ -15,7 +16,8 @@ export type TTasksObj = {
 export type TInitialState = {
   tasks: Array<TTasksObj>
   searchResults: Array<TTasksObj>
-  inputTaskValue: string
+  inputTaskTitleValue: string
+  inputTaskBodyValue: string
   inputAddTagValue: string
   inputSearchValue: string
 }
@@ -23,7 +25,8 @@ export type TInitialState = {
 const initialState: TInitialState = {
   tasks: [],
   searchResults: [],
-  inputTaskValue: '',
+  inputTaskTitleValue: '',
+  inputTaskBodyValue: '',
   inputAddTagValue: '',
   inputSearchValue: '',
 }
@@ -44,10 +47,15 @@ const tasksSlice = createSlice({
 
       tasks.splice(indexOfTaskToRemove, 1)
     },
-    updateInputTaskValue(state, action: PayloadAction<string>) {
-      const valueFromTaskInput = action.payload
+    updateInputTaskTitleValue(state, action: PayloadAction<string>) {
+      const valueFromTaskTitleInput = action.payload
 
-      state.inputTaskValue = valueFromTaskInput
+      state.inputTaskTitleValue = valueFromTaskTitleInput
+    },
+    updateInputTaskBodyValue(state, action: PayloadAction<string>) {
+      const valueFromTaskBodyInput = action.payload
+
+      state.inputTaskBodyValue = valueFromTaskBodyInput
     },
     addPriority(state, action) {
       const { priorityValue, taskIndex } = action.payload
@@ -83,7 +91,7 @@ const tasksSlice = createSlice({
       state.inputSearchValue = action.payload
       if (state.inputSearchValue) {
         state.searchResults = state.tasks.filter(task =>
-          task.taskValue.toLowerCase().match(state.inputSearchValue.toLowerCase())
+          task.taskTitleValue.toLowerCase().match(state.inputSearchValue.toLowerCase())
         )
       } else {
         state.searchResults = []
@@ -107,6 +115,7 @@ export const {
   removeTask,
   updateTasksOrder,
   updateSearchInputValue,
-  updateInputTaskValue,
+  updateInputTaskTitleValue,
+  updateInputTaskBodyValue,
   updateAddTagInputValue,
 } = tasksSlice.actions

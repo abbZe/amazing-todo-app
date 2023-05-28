@@ -6,12 +6,17 @@ type TaskValueProps = {
 }
 
 export const TaskValue: React.FC<TaskValueProps> = ({ id, tasks }) => {
-
   return (
     <>
-      {tasks.map((task: TTasksObj, index: number) => (
-        task.id === id ? <div>{task.taskValue}</div> : null
-      ))}
+      {tasks.map((task: TTasksObj) =>
+        task.id === id ? (
+          <>
+            <div>TITLE: {task.taskTitleValue}</div>
+            <div>TASK: {task.taskBodyValue} </div>
+            <div>TAGS: {task.tags.join(", ")} </div>
+          </>
+        ) : null
+      )}
     </>
   )
 }
