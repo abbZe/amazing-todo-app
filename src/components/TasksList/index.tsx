@@ -11,6 +11,7 @@ type TasksListProps = {
   selectPriorityHandler: (priorityValue: React.ChangeEvent<HTMLSelectElement>, index: number) => void
   submitAddTagHandler: (event: React.FormEvent<HTMLFormElement>, index: number) => void
   addToFavHandler: (index: number) => void
+  clickTagHandler: (tag: string) => void
 }
 
 export const TasksList: React.FC<TasksListProps> = ({
@@ -19,20 +20,21 @@ export const TasksList: React.FC<TasksListProps> = ({
   selectPriorityHandler,
   submitAddTagHandler,
   addToFavHandler,
+  clickTagHandler,
 }) => (
   <>
-    {tasks.map((obj: TTasksObj, index: number) => (
-      <Draggable key={obj.id} draggableId={obj.id} index={index}>
+    {tasks.map((task: TTasksObj, index: number) => (
+      <Draggable key={task.id} draggableId={task.id} index={index}>
         {provided => (
           <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-            <Link to={`/task/${obj.id}`}>
-              {index + 1}. {obj.taskTitleValue} {obj.priority} {obj.isFavorite.toString()}
+            <Link to={`/task/${task.id}`}>
+              {index + 1}. {task.taskTitleValue} {task.priority} {task.isFavorite.toString()}
             </Link>
             <RemoveTaskBtn onClick={() => removeTaskHandler(index)}>Delete</RemoveTaskBtn>
             <AddToFavBtn onClick={() => addToFavHandler(index)}>add to fav</AddToFavBtn>
             <TaskPrioritySelector selectPriorityHandler={selectPriorityHandler} index={index} />
             <AddTagForm submitAddTagHandler={submitAddTagHandler} index={index} />
-            <TagsList obj={obj} />
+            <TagsList task={task} clickTagHandler={clickTagHandler} />
           </li>
         )}
       </Draggable>

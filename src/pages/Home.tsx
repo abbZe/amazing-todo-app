@@ -5,10 +5,11 @@ import { selectTasks } from '../redux/tasks/selectors.ts'
 import { TTasksObj, addTask, updateInputTaskBodyValue, updateInputTaskTitleValue, updateSearchInputValue } from '../redux/tasks'
 import { Tasks } from '../containers'
 import { v4 } from 'uuid'
+import { TasksWithSameTag } from '../components/index.ts'
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch()
-  const { inputTaskTitleValue, inputTaskBodyValue, inputSearchValue } = useSelector(selectTasks)
+  const { inputTaskTitleValue, inputTaskBodyValue, inputSearchValue, searchTagResults } = useSelector(selectTasks)
 
   const taskTitleInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
@@ -67,6 +68,8 @@ export const Home: React.FC = () => {
       </InputForm>
 
       <Tasks />
+
+
     </section>
   )
 }

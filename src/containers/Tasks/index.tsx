@@ -1,6 +1,13 @@
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { addPriority, addTagToTask, addTaskToFav, removeTask, updateTasksOrder } from '../../redux/tasks'
+import {
+  addPriority,
+  addTagToTask,
+  addTaskToFav,
+  removeTask,
+  updateSearchTagResults,
+  updateTasksOrder,
+} from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
@@ -8,7 +15,7 @@ import { TasksList } from '../../components'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
-  const { tasks, inputSearchValue, searchResults } = useSelector(selectTasks)
+  const { tasks, inputSearchValue, searchResults, searchTagResults } = useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -38,6 +45,9 @@ export const Tasks: React.FC = () => {
   const addToFavHandler = (index: number) => {
     dispatch(addTaskToFav(index))
   }
+  const clickTagHandler = (tag: string) => {
+    dispatch(updateSearchTagResults(tag))
+  }
 
   return (
     <PlainTasksWrapper>
@@ -47,21 +57,51 @@ export const Tasks: React.FC = () => {
           {provided => (
             <ul id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
               {inputSearchValue ? (
-                <TasksList
-                  tasks={searchResults}
-                  removeTaskHandler={removeTaskHandler}
-                  selectPriorityHandler={selectPriorityHandler}
-                  submitAddTagHandler={submitAddTagHandler}
-                  addToFavHandler={addToFavHandler}
-                />
+                <>
+                  <TasksList
+                    tasks={searchResults}
+                    removeTaskHandler={removeTaskHandler}
+                    selectPriorityHandler={selectPriorityHandler}
+                    submitAddTagHandler={submitAddTagHandler}
+                    addToFavHandler={addToFavHandler}
+                    clickTagHandler={clickTagHandler}
+                  />
+                  <br />
+                  {/* tasks with same tag, shows when click on tag */}
+                  {searchTagResults.length > 0 ? (
+                    <TasksList
+                      tasks={searchTagResults}
+                      removeTaskHandler={removeTaskHandler}
+                      selectPriorityHandler={selectPriorityHandler}
+                      submitAddTagHandler={submitAddTagHandler}
+                      addToFavHandler={addToFavHandler}
+                      clickTagHandler={clickTagHandler}
+                    />
+                  ) : null}
+                </>
               ) : (
-                <TasksList
-                  tasks={tasks}
-                  removeTaskHandler={removeTaskHandler}
-                  selectPriorityHandler={selectPriorityHandler}
-                  submitAddTagHandler={submitAddTagHandler}
-                  addToFavHandler={addToFavHandler}
-                />
+                <>
+                  <TasksList
+                    tasks={tasks}
+                    removeTaskHandler={removeTaskHandler}
+                    selectPriorityHandler={selectPriorityHandler}
+                    submitAddTagHandler={submitAddTagHandler}
+                    addToFavHandler={addToFavHandler}
+                    clickTagHandler={clickTagHandler}
+                  />
+                  <br />
+                  {/* tasks with same tag, shows when click on tag */}
+                  {searchTagResults.length > 0 ? (
+                    <TasksList
+                      tasks={searchTagResults}
+                      removeTaskHandler={removeTaskHandler}
+                      selectPriorityHandler={selectPriorityHandler}
+                      submitAddTagHandler={submitAddTagHandler}
+                      addToFavHandler={addToFavHandler}
+                      clickTagHandler={clickTagHandler}
+                    />
+                  ) : null}
+                </>
               )}
               {provided.placeholder}
             </ul>

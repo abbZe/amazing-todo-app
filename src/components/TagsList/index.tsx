@@ -2,14 +2,15 @@ import styled from 'styled-components'
 import { TTasksObj } from '../../redux/tasks'
 
 type TagsListProps = {
-  obj: TTasksObj
+  task: TTasksObj
+  clickTagHandler: (tag: string) => void
 }
 
-export const TagsList: React.FC<TagsListProps> = ({ obj }) => (
+export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler }) => (
   <>
-    {obj.tags.map((tag, index) => (
+    {task.tags.map((tag, index) => (
       <UnordTagList key={index}>
-        <UnordTagListItem>{tag}</UnordTagListItem>
+        <UnordTagListItem onClick={() => clickTagHandler(tag)}>{tag}</UnordTagListItem>
       </UnordTagList>
     ))}
   </>

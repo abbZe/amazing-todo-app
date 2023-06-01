@@ -1,3 +1,4 @@
+import { TaskBody, TaskTitle } from '..'
 import { TTasksObj } from '../../redux/tasks'
 
 type TaskValueProps = {
@@ -11,9 +12,8 @@ export const TaskValue: React.FC<TaskValueProps> = ({ id, tasks }) => {
       {tasks.map((task: TTasksObj) =>
         task.id === id ? (
           <>
-            <div>TITLE: {task.taskTitleValue}</div>
-            <div>TASK: {task.taskBodyValue} </div>
-            <div>TAGS: {task.tags.join(", ")} </div>
+            <TaskTitle title={task.taskTitleValue} />
+            <TaskBody body={task.taskBodyValue} />
           </>
         ) : null
       )}
