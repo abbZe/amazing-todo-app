@@ -2,41 +2,49 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { selectTasks } from '../redux/tasks/selectors.ts'
-import { TTasksObj, addTask, updateInputTaskBodyValue, updateInputTaskTitleValue, updateSearchInputValue } from '../redux/tasks'
+import {
+  TTasksObj,
+  addTask,
+  updateInputTaskBodyValue,
+  updateInputTaskTitleValue,
+  updateSearchInputValue,
+} from '../redux/tasks'
 import { Tasks } from '../containers'
 import { v4 } from 'uuid'
-import { TasksWithSameTag } from '../components/index.ts'
+import { CKEditor } from '@ckeditor/ckeditor5-react'
+import CustomEditor from 'ckeditor5-custom-build'
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch()
-  const { inputTaskTitleValue, inputTaskBodyValue, inputSearchValue, searchTagResults } = useSelector(selectTasks)
+  const { inputTaskTitleValue, inputTaskBodyValue, inputSearchValue } = useSelector(selectTasks)
 
   const taskTitleInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value
     dispatch(updateInputTaskTitleValue(inputValue))
   }
-  const taskBodyInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event.target.value
-    dispatch(updateInputTaskBodyValue(inputValue))
+  const taskBodyInputHandler = (_: any, editor: CustomEditor) => {
+    const data = editor.getData()
+
+    dispatch(updateInputTaskBodyValue(data))
   }
   const createTaskHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
-    const inputTaskTitleValue = (event.target[0] as HTMLInputElement).value
-    const inputTaskBodyValue = (event.target[1] as HTMLInputElement).value
-    const tasksObj: TTasksObj = {
+
+    const taskObj: TTasksObj = {
       id: v4(),
-      taskTitleValue: inputTaskTitleValue,
-      taskBodyValue: inputTaskBodyValue,
+      taskTitleValue: "",
+      taskBodyValue: "",
       priority: '',
       tags: [],
       isFavorite: false,
     }
 
-    if (inputTaskTitleValue && inputTaskBodyValue) {
-      dispatch(addTask(tasksObj))
+    if (inputTaskTitleValue) {
+      dispatch(addTask(taskObj))
+
       dispatch(updateInputTaskTitleValue(''))
       dispatch(updateInputTaskBodyValue(''))
-    } else alert('task input is empty')
+    } else alert('task title is empty')
   }
   const searchInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchInputValue = event.target.value
@@ -57,19 +65,12 @@ export const Home: React.FC = () => {
           autoFocus
           placeholder="введите заголовок..."
         />
-        <TaskBodyInput
-          type="text"
-          value={inputTaskBodyValue}
-          onChange={taskBodyInputHandler}
-          required
-          placeholder="введите задачу..."
-        />
+        <CKEditor editor={CustomEditor} data={inputTaskBodyValue} onChange={taskBodyInputHandler} />
+
         <AddTaskBtn type="submit">Add</AddTaskBtn>
       </InputForm>
 
       <Tasks />
-
-
     </section>
   )
 }
@@ -80,6 +81,5 @@ const InputForm = styled.form`
   gap: 1rem;
 `
 const TaskTitleInput = styled.input``
-const TaskBodyInput = styled.input``
 const AddTaskBtn = styled.button``
 const SearchInput = styled.input``

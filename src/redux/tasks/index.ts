@@ -38,10 +38,14 @@ const tasksSlice = createSlice({
   initialState,
   reducers: {
     addTask(state, action: PayloadAction<TTasksObj>) {
-      const valueFromTaskInput = action.payload
+      const taskObj = action.payload
+
+      taskObj.taskTitleValue = state.inputTaskTitleValue
+      taskObj.taskBodyValue = state.inputTaskBodyValue
+
       let { tasks } = state
 
-      tasks.push(valueFromTaskInput)
+      tasks.push(taskObj)
     },
     removeTask(state, action: PayloadAction<number>) {
       const { tasks } = state
