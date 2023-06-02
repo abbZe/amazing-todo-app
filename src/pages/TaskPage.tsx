@@ -13,7 +13,7 @@ export const TaskPage: React.FC = () => {
   const dispatch = useDispatch()
   const { id } = useParams()
   const { tasks, inputTaskBodyValue } = useSelector(selectTasks)
-  const [isHide, setIsHide] = useState(false)
+  const [isHide, setIsHide] = useState(true)
 
   const taskBodyInputHandler = (_: any, editor: CustomEditor) => {
     const data = editor.getData()
@@ -48,8 +48,7 @@ export const TaskPage: React.FC = () => {
             <ApplyChangesBtn type="submit">ПРИМЕНИТЬ ИЗМЕНЕНИЯ</ApplyChangesBtn>
           </InputForm>
         )}
-        <Link to="/">Назад</Link>
-      </>
+        <Link to="/">Назад</Link> </>
     )
   } else {
     return <div>"Loading..."</div>

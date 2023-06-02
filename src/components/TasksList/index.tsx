@@ -26,7 +26,7 @@ export const TasksList: React.FC<TasksListProps> = ({
     {tasks.map((task: TTasksObj, index: number) => (
       <Draggable key={task.id} draggableId={task.id} index={index}>
         {provided => (
-          <li {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+          <ListOfTasks {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
             <Link to={`/task/${task.id}`}>
               {index + 1}. {task.taskTitleValue} {task.priority} {task.isFavorite.toString()}
             </Link>
@@ -35,7 +35,7 @@ export const TasksList: React.FC<TasksListProps> = ({
             <TaskPrioritySelector selectPriorityHandler={selectPriorityHandler} index={index} />
             <AddTagForm submitAddTagHandler={submitAddTagHandler} index={index} />
             <TagsList task={task} clickTagHandler={clickTagHandler} />
-          </li>
+          </ListOfTasks>
         )}
       </Draggable>
     ))}
@@ -44,3 +44,6 @@ export const TasksList: React.FC<TasksListProps> = ({
 
 const RemoveTaskBtn = styled.button``
 const AddToFavBtn = styled.button``
+const ListOfTasks = styled.li`
+  list-style: none;
+`

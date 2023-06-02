@@ -17,4 +17,6 @@ export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler }) => 
 )
 
 const UnordTagList = styled.ul``
-const UnordTagListItem = styled.li``
+const UnordTagListItem = styled.li`
+  list-style: none;
+`
