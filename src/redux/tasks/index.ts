@@ -130,7 +130,16 @@ const tasksSlice = createSlice({
           task.taskBodyValue = state.inputTaskBodyValue
         }
       })
-    }
+    },
+    setEditorValueSimiliarToTaskBody(state, action) {
+      const idOfTask = action.payload
+
+      state.tasks.map(task => {
+        if (task.id === idOfTask) {
+          state.inputTaskBodyValue = task.taskBodyValue
+        }
+      })
+    },
   },
 })
 
@@ -142,6 +151,7 @@ export const {
   addTaskToFav,
   removeTask,
   editTask,
+  setEditorValueSimiliarToTaskBody,
   updateTasksOrder,
   updateSearchInputValue,
   updateInputTaskTitleValue,
