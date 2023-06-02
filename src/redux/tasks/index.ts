@@ -122,6 +122,15 @@ const tasksSlice = createSlice({
         }
       })
     },
+    editTask(state, action) {
+      const idOfTask = action.payload
+
+      state.tasks.map(task => {
+        if (task.id === idOfTask) {
+          task.taskBodyValue = state.inputTaskBodyValue
+        }
+      })
+    }
   },
 })
 
@@ -132,6 +141,7 @@ export const {
   addTagToTask,
   addTaskToFav,
   removeTask,
+  editTask,
   updateTasksOrder,
   updateSearchInputValue,
   updateInputTaskTitleValue,
