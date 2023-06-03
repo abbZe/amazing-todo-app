@@ -34,9 +34,10 @@ export const Home: React.FC = () => {
       id: v4(),
       taskTitleValue: "",
       taskBodyValue: "",
-      priority: '',
+      priority: "",
       tags: [],
       isFavorite: false,
+      dateOfCreate: "",
     }
 
     if (inputTaskTitleValue) {

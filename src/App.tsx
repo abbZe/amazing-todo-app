@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom'
 import styled from 'styled-components'
 
 import MainLayout from './layouts/MainLayout.tsx'
-import './App.css'
+import './reset.css'
 import { Home, NotFound, TaskPage } from './pages'
 
 const App: React.FC = () => (

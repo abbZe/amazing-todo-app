@@ -12,6 +12,7 @@ export type TTasksObj = {
   priority: string
   tags: Array<string>
   isFavorite: boolean
+  dateOfCreate: string
 }
 export type TInitialState = {
   tasks: Array<TTasksObj>
@@ -39,9 +40,20 @@ const tasksSlice = createSlice({
   reducers: {
     addTask(state, action: PayloadAction<TTasksObj>) {
       const taskObj = action.payload
+      const today = new Date()
+
+      const year = today.getFullYear()
+      const month = today.getMonth() + 1 // January gives 0, so +1 ;)
+      const day = today.getDate()
+      const hours = Number.parseInt(Number(today.getHours()).toFixed(2))
+      const minutes = Number.parseInt(Number(today.getMinutes()).toFixed(2))
+      const seconds = Number.parseInt(Number(today.getSeconds()).toFixed(2))
+
+      const date = `${day}/${month}/${year} ${hours}ч:${minutes}м:${seconds}с`
 
       taskObj.taskTitleValue = state.inputTaskTitleValue
       taskObj.taskBodyValue = state.inputTaskBodyValue
+      taskObj.dateOfCreate = date
 
       let { tasks } = state
 
@@ -114,13 +126,20 @@ const tasksSlice = createSlice({
       const { tasks } = state
       const tagFromHandler = action.payload
 
-      state.searchTagResults = []
+      if (state.searchTagResults.length > 0) {
+        state.searchTagResults = []
+      } else {
+        state.searchTagResults = []
 
-      tasks.map(task => {
-        if (task.tags.find(tag => tag === tagFromHandler)) {
-          state.searchTagResults.push(task)
-        }
-      })
+        tasks.map(task => (task.tags.find(tag => tag === tagFromHandler) ? state.searchTagResults.push(task) : null))
+
+        // Maybe i shoud stay with IF ELSE...
+        //tasks.map(task => {
+        //if (task.tags.find(tag => tag === tagFromHandler)) {
+        //state.searchTagResults.push(task)
+        //}
+        //})
+      }
     },
     editTask(state, action) {
       const idOfTask = action.payload

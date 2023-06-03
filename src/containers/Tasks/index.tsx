@@ -48,6 +48,11 @@ export const Tasks: React.FC = () => {
   const clickTagHandler = (tag: string) => {
     dispatch(updateSearchTagResults(tag))
   }
+  const whichTasksWillDisplay = () => (
+    inputSearchValue ? searchResults
+      : searchTagResults.length > 0 ? searchTagResults
+        : tasks
+  )
 
   return (
     <PlainTasksWrapper>
@@ -56,53 +61,14 @@ export const Tasks: React.FC = () => {
         <Droppable droppableId="tasksUl">
           {provided => (
             <ul id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
-              {inputSearchValue ? (
-                <>
-                  <TasksList
-                    tasks={searchResults}
-                    removeTaskHandler={removeTaskHandler}
-                    selectPriorityHandler={selectPriorityHandler}
-                    submitAddTagHandler={submitAddTagHandler}
-                    addToFavHandler={addToFavHandler}
-                    clickTagHandler={clickTagHandler}
-                  />
-                  <br />
-                  {/* tasks with same tag, shows when click on tag */}
-                  {searchTagResults.length > 0 ? (
-                    <TasksList
-                      tasks={searchTagResults}
-                      removeTaskHandler={removeTaskHandler}
-                      selectPriorityHandler={selectPriorityHandler}
-                      submitAddTagHandler={submitAddTagHandler}
-                      addToFavHandler={addToFavHandler}
-                      clickTagHandler={clickTagHandler}
-                    />
-                  ) : null}
-                </>
-              ) : (
-                <>
-                  <TasksList
-                    tasks={tasks}
-                    removeTaskHandler={removeTaskHandler}
-                    selectPriorityHandler={selectPriorityHandler}
-                    submitAddTagHandler={submitAddTagHandler}
-                    addToFavHandler={addToFavHandler}
-                    clickTagHandler={clickTagHandler}
-                  />
-                  <br />
-                  {/* tasks with same tag, shows when click on tag */}
-                  {searchTagResults.length > 0 ? (
-                    <TasksList
-                      tasks={searchTagResults}
-                      removeTaskHandler={removeTaskHandler}
-                      selectPriorityHandler={selectPriorityHandler}
-                      submitAddTagHandler={submitAddTagHandler}
-                      addToFavHandler={addToFavHandler}
-                      clickTagHandler={clickTagHandler}
-                    />
-                  ) : null}
-                </>
-              )}
+              <TasksList
+                tasks={whichTasksWillDisplay()}
+                removeTaskHandler={removeTaskHandler}
+                selectPriorityHandler={selectPriorityHandler}
+                submitAddTagHandler={submitAddTagHandler}
+                addToFavHandler={addToFavHandler}
+                clickTagHandler={clickTagHandler}
+              />
               {provided.placeholder}
             </ul>
           )}
