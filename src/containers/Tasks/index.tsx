@@ -12,6 +12,7 @@ import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
+import { List, Paper, Typography } from '@mui/material'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
@@ -55,12 +56,12 @@ export const Tasks: React.FC = () => {
   )
 
   return (
-    <PlainTasksWrapper>
-      <h2>Tasks</h2>
+    <Paper elevation={2} sx={{ p: '1rem' }}>
+      <Typography variant="h4" component="h1">Tasks</Typography>
       <DragDropContext onDragEnd={onDragEndHandler}>
         <Droppable droppableId="tasksUl">
           {provided => (
-            <ul id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
+            <List id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
               <TasksList
                 tasks={whichTasksWillDisplay()}
                 removeTaskHandler={removeTaskHandler}
@@ -70,17 +71,10 @@ export const Tasks: React.FC = () => {
                 clickTagHandler={clickTagHandler}
               />
               {provided.placeholder}
-            </ul>
+            </List>
           )}
         </Droppable>
       </DragDropContext>
-    </PlainTasksWrapper>
+    </Paper>
   )
 }
-
-const PlainTasksWrapper = styled.div`
-  /* Box model */
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-`

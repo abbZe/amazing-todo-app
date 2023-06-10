@@ -1,13 +1,13 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import styled from 'styled-components'
+import { Paper } from '@mui/material'
+import './App.css'
 
 import MainLayout from './layouts/MainLayout.tsx'
-import './reset.css'
 import { Home, NotFound, TaskPage } from './pages'
 
 const App: React.FC = () => (
-  <AppWrapper>
+  <Paper elevation={1} sx={{ p: '2rem', m: '1rem' }}>
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route path="" element={<Home />} />
@@ -15,22 +15,7 @@ const App: React.FC = () => (
         <Route path="*" element={<NotFound />} />
       </Route>
     </Routes>
-  </AppWrapper>
+  </Paper>
 )
 
 export default App
-
-const AppWrapper = styled.div`
-  /* Box model */
-  display: grid;
-  place-content: center;
-  padding: 2rem;
-  gap: 1rem;
-
-  /* Typography */
-  color: #268bd2;
-  font-size: 1.4rem;
-
-  /* Visual */
-  background-color: #262626;
-`

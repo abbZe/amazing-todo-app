@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 import { selectTasks } from '../redux/tasks/selectors.ts'
 import {
   TTasksObj,
@@ -13,6 +12,9 @@ import { Tasks } from '../containers'
 import { v4 } from 'uuid'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import CustomEditor from 'ckeditor5-custom-build'
+import { Button, FormControl, FormGroup, InputAdornment, Stack, TextField } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+import AddIcon from '@mui/icons-material/Add'
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch()
@@ -32,12 +34,12 @@ export const Home: React.FC = () => {
 
     const taskObj: TTasksObj = {
       id: v4(),
-      taskTitleValue: "",
-      taskBodyValue: "",
-      priority: "",
+      taskTitleValue: '',
+      taskBodyValue: '',
+      priority: '',
       tags: [],
       isFavorite: false,
-      dateOfCreate: "",
+      dateOfCreate: '',
     }
 
     if (inputTaskTitleValue) {
@@ -54,33 +56,40 @@ export const Home: React.FC = () => {
   }
 
   return (
-    <section>
-      <SearchInput value={inputSearchValue} type="text" onChange={searchInputHandler} placeholder="ищем..." />
+    <Stack spacing={6} justifyContent="flex-start">
+      <TextField
+        sx={{ width: '100' }}
+        type="search"
+        label={inputSearchValue ? null : 'ищем...'}
+        value={inputSearchValue}
+        onChange={searchInputHandler}
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="start">
+              <SearchIcon />
+            </InputAdornment>
+          ),
+        }}
+      />
 
-      <InputForm onSubmit={createTaskHandler}>
-        <TaskTitleInput
-          type="text"
-          value={inputTaskTitleValue}
-          onChange={taskTitleInputHandler}
-          required
-          autoFocus
-          placeholder="введите заголовок..."
-        />
-        <CKEditor editor={CustomEditor} data={inputTaskBodyValue} onChange={taskBodyInputHandler} />
+      <FormGroup>
+        <FormControl component="form" onSubmit={createTaskHandler} sx={{ gap: 2, width: '100%' }}>
+          <TextField
+            type="search"
+            value={inputTaskTitleValue}
+            onChange={taskTitleInputHandler}
+            required
+            autoFocus
+            label="заголовок"
+          />
 
-        <AddTaskBtn type="submit">Add</AddTaskBtn>
-      </InputForm>
+          <CKEditor editor={CustomEditor} data={inputTaskBodyValue} onChange={taskBodyInputHandler} />
+
+          <Button variant="contained" type="submit" size="medium" startIcon={<AddIcon />} />
+        </FormControl>
+      </FormGroup>
 
       <Tasks />
-    </section>
+    </Stack>
   )
 }
-
-const InputForm = styled.form`
-  /* Box model */
-  display: flex;
-  gap: 1rem;
-`
-const TaskTitleInput = styled.input``
-const AddTaskBtn = styled.button``
-const SearchInput = styled.input``
