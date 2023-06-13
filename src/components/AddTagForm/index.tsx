@@ -1,4 +1,5 @@
-import styled from 'styled-components'
+import { FormControl, IconButton, InputAdornment, TextField } from '@mui/material'
+import AddIcon from '@mui/icons-material/Add'
 
 type AddTagFormProps = {
   index: number
@@ -6,12 +7,21 @@ type AddTagFormProps = {
 }
 
 export const AddTagForm: React.FC<AddTagFormProps> = ({ submitAddTagHandler, index }) => (
-  <InputForm onSubmit={event => submitAddTagHandler(event, index)}>
-    <AddTagInput placeholder="add some tags..." required />
-    <AddTagBtn type="submit">add tag</AddTagBtn>
-  </InputForm>
+  <FormControl component="form" onSubmit={event => submitAddTagHandler(event, index)} sx={{ width: '100%', mb: '0.5rem' }}>
+    <TextField
+      size="small"
+      type="search"
+      required
+      label="добавить тег"
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="end">
+            <IconButton type="submit" size="medium">
+              <AddIcon />
+            </IconButton>
+          </InputAdornment>
+        ),
+      }}
+    />
+  </FormControl>
 )
-
-const AddTagInput = styled.input``
-const InputForm = styled.form``
-const AddTagBtn = styled.button``

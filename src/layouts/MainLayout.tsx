@@ -1,11 +1,11 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
-import { Footer } from '../containers'
+import { BottomNav } from '../containers'
 
 const MainLayout: React.FC = () => (
   <>
     <Outlet />
-    <Footer />
+    <BottomNav />
   </>
 )
 

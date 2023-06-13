@@ -1,9 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
-import styled from 'styled-components'
 import {
-  addPriority,
   addTagToTask,
   addTaskToFav,
+  removeTag,
   removeTask,
   updateSearchTagResults,
   updateTasksOrder,
@@ -13,10 +12,13 @@ import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
 import { List, Paper, Typography } from '@mui/material'
+import { useLocation } from 'react-router-dom'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
-  const { tasks, inputSearchValue, searchResults, searchTagResults } = useSelector(selectTasks)
+  const location = useLocation()
+  const { tasks, favoriteTasks, inputSearchValue, searchResults, searchTagResults } = useSelector(selectTasks)
+  console.log(location.pathname)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -28,13 +30,9 @@ export const Tasks: React.FC = () => {
     }
   }
   const removeTaskHandler = (taskIndex: number) => dispatch(removeTask(taskIndex))
-  const selectPriorityHandler = (value: React.ChangeEvent<HTMLSelectElement>, taskIndex: number) => {
-    const priorityValue = value.target.value
-
-    dispatch(addPriority({ priorityValue, taskIndex }))
-  }
   const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
     event.preventDefault()
+
     if (event.target) {
       // @ts-ignore
       const { value } = event.target[0] as HTMLInputElement
@@ -49,15 +47,24 @@ export const Tasks: React.FC = () => {
   const clickTagHandler = (tag: string) => {
     dispatch(updateSearchTagResults(tag))
   }
+  const deleteTagHandler = (tag: string, index: number, taskIndex: number) => {
+    dispatch(removeTag([tag, index, taskIndex]))
+  }
   const whichTasksWillDisplay = () => (
-    inputSearchValue ? searchResults
-      : searchTagResults.length > 0 ? searchTagResults
-        : tasks
+    location.pathname === '/favorite'
+      ? favoriteTasks
+      : inputSearchValue
+        ? searchResults
+        : searchTagResults.length > 0
+          ? searchTagResults
+          : tasks
   )
 
   return (
     <Paper elevation={2} sx={{ p: '1rem' }}>
-      <Typography variant="h4" component="h1">Tasks</Typography>
+      <Typography variant="h4" component="h2">
+        Заметки
+      </Typography>
       <DragDropContext onDragEnd={onDragEndHandler}>
         <Droppable droppableId="tasksUl">
           {provided => (
@@ -65,10 +72,10 @@ export const Tasks: React.FC = () => {
               <TasksList
                 tasks={whichTasksWillDisplay()}
                 removeTaskHandler={removeTaskHandler}
-                selectPriorityHandler={selectPriorityHandler}
                 submitAddTagHandler={submitAddTagHandler}
                 addToFavHandler={addToFavHandler}
                 clickTagHandler={clickTagHandler}
+                deleteTagHandler={deleteTagHandler}
               />
               {provided.placeholder}
             </List>

@@ -1,22 +1,26 @@
-import styled from 'styled-components'
 import { TTasksObj } from '../../redux/tasks'
+import { Chip, Stack } from '@mui/material'
 
 type TagsListProps = {
   task: TTasksObj
   clickTagHandler: (tag: string) => void
+  deleteTagHandler: (tag: string, index: number) => void
+  taskIndex: number
 }
 
-export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler }) => (
+export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler, deleteTagHandler, taskIndex }) => (
   <>
-    {task.tags.map((tag, index) => (
-      <UnordTagList key={index}>
-        <UnordTagListItem onClick={() => clickTagHandler(tag)}>{tag}</UnordTagListItem>
-      </UnordTagList>
-    ))}
+    <Stack direction="row">
+      {task.tags.map((tag, index) => (
+        <Chip
+          key={index}
+          label={tag}
+          variant="outlined"
+          onClick={() => clickTagHandler(tag)}
+          onDelete={() => deleteTagHandler(tag, index, taskIndex)}
+          sx={{ mx: '0.25rem' }}
+        />
+      ))}
+    </Stack>
   </>
 )
-
-const UnordTagList = styled.ul``
-const UnordTagListItem = styled.li`
-  list-style: none;
-`

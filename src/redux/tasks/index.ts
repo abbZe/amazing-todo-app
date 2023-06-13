@@ -16,8 +16,10 @@ export type TTasksObj = {
 }
 export type TInitialState = {
   tasks: Array<TTasksObj>
+  favoriteTasks: Array<TTasksObj>
   searchResults: Array<TTasksObj>
   searchTagResults: Array<TTasksObj>
+  isSearchShows: boolean
   inputTaskTitleValue: string
   inputTaskBodyValue: string
   inputAddTagValue: string
@@ -26,8 +28,10 @@ export type TInitialState = {
 
 const initialState: TInitialState = {
   tasks: [],
+  favoriteTasks: [],
   searchResults: [],
   searchTagResults: [],
+  isSearchShows: false,
   inputTaskTitleValue: '',
   inputTaskBodyValue: '',
   inputAddTagValue: '',
@@ -101,7 +105,7 @@ const tasksSlice = createSlice({
       const { tags } = state.tasks[indexOfTask]
       const normalizedTagValue = inputAddTagValue.trim().toLowerCase()
 
-      tags.push(normalizedTagValue)
+      tags.find(tag => tag === normalizedTagValue) ? null : tags.push(normalizedTagValue)
     },
     updateTasksOrder(state, action) {
       state.tasks = action.payload
@@ -159,6 +163,19 @@ const tasksSlice = createSlice({
         }
       })
     },
+    removeTag(state, action) {
+      const { tasks } = state
+      const indexOfTag = Number(action.payload[1])
+      const indexOfTask = Number(action.payload[2])
+
+      tasks[indexOfTask].tags.splice(indexOfTag, 1)
+    },
+    toggleSearch(state, action) {
+      state.isSearchShows = action.payload
+    },
+    updateFavoriteTasks(state) {
+      state.favoriteTasks = state.tasks.filter(task => task.isFavorite)
+    }
   },
 })
 
@@ -169,6 +186,7 @@ export const {
   addTagToTask,
   addTaskToFav,
   removeTask,
+  removeTag,
   editTask,
   setEditorValueSimiliarToTaskBody,
   updateTasksOrder,
@@ -177,4 +195,6 @@ export const {
   updateInputTaskBodyValue,
   updateAddTagInputValue,
   updateSearchTagResults,
+  updateFavoriteTasks,
+  toggleSearch,
 } = tasksSlice.actions
