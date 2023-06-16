@@ -7,6 +7,7 @@ import {
   updateSearchTagResults,
   updateTasksOrder,
   TTasksObj,
+  toggleAddNote,
 } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
@@ -19,7 +20,7 @@ import { useLocation } from 'react-router-dom'
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { tasks, inputSearchValue, searchResults, searchTagResults } = useSelector(selectTasks)
+  const { tasks, inputSearchValue, searchResults, searchTagResults, isAddNoteShows } = useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -55,6 +56,7 @@ export const Tasks: React.FC = () => {
   const clickDeleteTagBtnHandler = (taskId: string, tagId: string) => {
     dispatch(removeTag({ taskId, tagId }))
   }
+  const clickTaskTitleHandler = () => isAddNoteShows ? dispatch(toggleAddNote(!isAddNoteShows)) : null
   const whichTasksWillDisplay = () => {
     const favoriteTasks: Array<TTasksObj> = []
 
@@ -85,6 +87,7 @@ export const Tasks: React.FC = () => {
                 submitAddTagHandler={submitAddTagHandler}
                 clickTagHandler={clickTagHandler}
                 clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
+                clickTaskTitleHandler={clickTaskTitleHandler}
               />
               {provided.placeholder}
             </List>

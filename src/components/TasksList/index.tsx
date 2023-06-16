@@ -1,4 +1,4 @@
-import { TTasksObj } from '../../redux/tasks'
+import { TTasksObj, toggleAddNote } from '../../redux/tasks'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { AddTagForm, TagsList, TaskPrioritySelector } from '..'
@@ -27,6 +27,7 @@ type TasksListProps = {
   addToFavHandler: (taskId: string) => void
   clickTagHandler: (tag: string) => void
   clickDeleteTagBtnHandler: (taskId: string, tagId: string) => void
+  clickTaskTitleHandler: () => void
 }
 
 export const TasksList: React.FC<TasksListProps> = ({
@@ -36,6 +37,7 @@ export const TasksList: React.FC<TasksListProps> = ({
   addToFavHandler,
   clickTagHandler,
   clickDeleteTagBtnHandler,
+  clickTaskTitleHandler,
 }) => {
   if (tasks.length > 0) {
     return (
@@ -48,7 +50,7 @@ export const TasksList: React.FC<TasksListProps> = ({
                   <CardHeader
                     title={
                       <Typography variant="h6" component="h2">
-                        <Link component={RouterLink} to={`/task/${task.id}`} underline="none" variant="h5">
+                        <Link component={RouterLink} to={`/task/${task.id}`} underline="none" variant="h5" onClick={clickTaskTitleHandler}>
                           {task.priority ? <Alert severity="warning">{task.priority} приоритет</Alert> : null}
                           {index + 1}. {task.taskTitleValue}
                         </Link>
