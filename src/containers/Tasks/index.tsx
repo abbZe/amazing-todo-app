@@ -70,8 +70,8 @@ export const Tasks: React.FC = () => {
   }
 
   return (
-    <Paper elevation={2} sx={{ p: '1rem' }}>
-      <Typography variant="h4" component="h2">
+    <Paper elevation={0} sx={{ height: "100vh" }}>
+      <Typography sx={{ textAlign: "center", position: "sticky", top: "0", zIndex: "999", backgroundColor: "inherit" }} variant="h4" component="h2">
         Заметки
       </Typography>
       <DragDropContext onDragEnd={onDragEndHandler}>

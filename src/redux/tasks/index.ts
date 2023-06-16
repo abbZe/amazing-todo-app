@@ -4,6 +4,7 @@ export enum Priority {
   'low' = 'низкий',
   'medium' = 'средний',
   'high' = 'высокий',
+  'none' = 'нет',
 }
 export type TTagsObj = {
   id: string
@@ -19,10 +20,12 @@ export type TTasksObj = {
   dateOfCreate: string
 }
 export type TInitialState = {
+  themeMode: 'light' | 'dark'
   tasks: Array<TTasksObj>
   searchResults: Array<TTasksObj>
   searchTagResults: Array<TTasksObj>
   isSearchShows: boolean
+  isAddNoteShows: boolean
   inputTaskTitleValue: string
   inputTaskBodyValue: string
   inputAddTagValue: string
@@ -30,10 +33,12 @@ export type TInitialState = {
 }
 
 const initialState: TInitialState = {
+  themeMode: 'light',
   tasks: [],
   searchResults: [],
   searchTagResults: [],
   isSearchShows: false,
+  isAddNoteShows: false,
   inputTaskTitleValue: '',
   inputTaskBodyValue: '',
   inputAddTagValue: '',
@@ -91,6 +96,9 @@ const tasksSlice = createSlice({
       state.tasks.map(task => {
         if (task.id === taskId) {
           switch (priorityValue) {
+            case 'none':
+              task.priority = ''
+              break
             case 'low':
               task.priority = Priority.low
               break
@@ -189,6 +197,12 @@ const tasksSlice = createSlice({
     toggleSearch(state, action) {
       state.isSearchShows = action.payload
     },
+    toggleAddNote(state, action) {
+      state.isAddNoteShows = action.payload
+    },
+    updateThemeMode(state) {
+      state.themeMode === 'dark' ? (state.themeMode = 'light') : (state.themeMode = 'dark')
+    },
   },
 })
 
@@ -207,6 +221,8 @@ export const {
   updateInputTaskBodyValue,
   updateAddTagInputValue,
   updateSearchTagResults,
+  updateThemeMode,
   toggleSearch,
   toggleFav,
+  toggleAddNote,
 } = tasksSlice.actions

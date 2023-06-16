@@ -1,14 +1,16 @@
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import AddIcon from '@mui/icons-material/Add'
-import { Button, FormControl, FormControlLabel, FormGroup, Paper, TextField, Typography } from '@mui/material'
+import { Button, FormControl, FormGroup, Paper, TextField, Tooltip, Typography } from '@mui/material'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectTasks } from '../../redux/tasks/selectors'
 import { v4 } from 'uuid'
 import CustomEditor from 'ckeditor5-custom-build'
-import { TTasksObj, addTask, updateInputTaskBodyValue, updateInputTaskTitleValue } from '../../redux/tasks'
+import { TTasksObj, addTask, toggleAddNote, updateInputTaskBodyValue, updateInputTaskTitleValue } from '../../redux/tasks'
+import { AnimatePresence, motion } from 'framer-motion'
+import { isSet } from 'util/types'
 
 export const AddTaskForm = () => {
-  const { inputTaskTitleValue, inputTaskBodyValue } = useSelector(selectTasks)
+  const { inputTaskTitleValue, inputTaskBodyValue, isAddNoteShows } = useSelector(selectTasks)
   const dispatch = useDispatch()
 
   const taskTitleInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,29 +39,39 @@ export const AddTaskForm = () => {
       dispatch(addTask(taskObj))
 
       dispatch(updateInputTaskTitleValue(''))
-      dispatch(updateInputTaskBodyValue(''))
+      dispatch(toggleAddNote(!isAddNoteShows))
     } else alert('task title is empty')
   }
 
   return (
-    <Paper elevation={1} sx={{ p: "1rem" }}>
-      <FormGroup>
-        <Typography component="h1" variant="h4">Создать заметку</Typography>
-        <FormControl component="form" onSubmit={createTaskHandler} sx={{ gap: 2, width: '100%' }}>
-          <TextField
-            type="search"
-            value={inputTaskTitleValue}
-            onChange={taskTitleInputHandler}
-            required
-            autoFocus
-            label="заголовок"
-          />
+    <AnimatePresence>
+      {isAddNoteShows &&
+        <motion.div animate={{ y: '-60px' }}>
+          <Paper elevation={1} sx={{ p: '1rem' }}>
+            <FormGroup>
+              <Typography component="h1" variant="h4">
+                Создать заметку
+              </Typography>
+              <FormControl component="form" onSubmit={createTaskHandler} sx={{ gap: 2, width: '100%' }}>
+                <TextField
+                  type="search"
+                  value={inputTaskTitleValue}
+                  onChange={taskTitleInputHandler}
+                  required
+                  label="заголовок"
+                />
 
-          <CKEditor editor={CustomEditor} data={inputTaskBodyValue} onChange={taskBodyInputHandler} />
+                <CKEditor editor={CustomEditor} data={inputTaskBodyValue} onChange={taskBodyInputHandler} />
 
-          <Button variant="contained" type="submit" size="medium" startIcon={<AddIcon />} />
-        </FormControl>
-      </FormGroup>
-    </Paper>
+                <Tooltip title="Добавить заметку">
+                  <Button color="primary" variant="contained" type="submit" size="medium" startIcon={<AddIcon />} />
+                </Tooltip>
+              </FormControl>
+            </FormGroup>
+          </Paper>
+        </motion.div>
+
+      }
+    </AnimatePresence>
   )
 }

@@ -32,6 +32,7 @@ export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = ({ task
         <MenuItem value="high">{Priority.high}</MenuItem>
         <MenuItem value="medium">{Priority.medium}</MenuItem>
         <MenuItem value="low">{Priority.low}</MenuItem>
+        <MenuItem value="none">{Priority.none}</MenuItem>
       </Select>
     </FormControl>
   )

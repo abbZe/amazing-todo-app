@@ -14,7 +14,7 @@ export const AddTagForm: React.FC<AddTagFormProps> = ({ submitAddTagHandler, tas
   >
     <TextField
       size="small"
-      type="search"
+      type="text"
       required
       label="добавить тег"
       InputProps={{

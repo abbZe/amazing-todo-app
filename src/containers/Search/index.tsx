@@ -24,7 +24,6 @@ export const Search = () => {
           <TextField
             sx={{
               width: '100%',
-              bgcolor: 'white',
               position: 'sticky',
               bottom: '0',
               top: '0',

@@ -5,10 +5,9 @@ import { TaskValue } from '../components'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { editTask, setEditorValueSimiliarToTaskBody, updateInputTaskBodyValue } from '../redux/tasks'
 import { useDispatch } from 'react-redux'
-import styled from 'styled-components'
 import CustomEditor from 'ckeditor5-custom-build'
 import { useState } from 'react'
-import { Button, Paper } from '@mui/material'
+import { Button, FormControl, FormGroup, Paper, Stack, Typography } from '@mui/material'
 
 export const TaskPage: React.FC = () => {
   const dispatch = useDispatch()
@@ -35,30 +34,31 @@ export const TaskPage: React.FC = () => {
   if (id) {
     return (
       <Paper elevation={1} sx={{ p: '1rem' }}>
-        <TaskValue id={id} tasks={tasks} />
-        <Button variant="outlined" onClick={() => setIsHide(!isHide)}>EDIT TASK</Button>
-        {isHide ? null : (
-          <InputForm onSubmit={submitEditTaskHandler}>
-            <CKEditor
-              editor={CustomEditor}
-              data={inputTaskBodyValue}
-              onChange={taskBodyInputHandler}
-              onReady={() => editorDefaultValueHandler(id)}
-            />
+        <Stack>
+          <TaskValue id={id} tasks={tasks} />
+          <Button variant="outlined" color={isHide ? "primary" : "secondary"} onClick={() => setIsHide(!isHide)} >Редактировать</Button>
+        </Stack>
 
-            <ApplyChangesBtn type="submit">ПРИМЕНИТЬ ИЗМЕНЕНИЯ</ApplyChangesBtn>
-          </InputForm>
-        )}
+        <Stack>
+          {isHide ? null : (
+            <FormGroup>
+              <Typography component="h2" variant="h4">Отредактировать заметку</Typography>
+              <FormControl component="form" onSubmit={submitEditTaskHandler} sx={{ gap: 2, width: '100%' }}>
+                <CKEditor
+                  editor={CustomEditor}
+                  data={inputTaskBodyValue}
+                  onChange={taskBodyInputHandler}
+                  onReady={() => editorDefaultValueHandler(id)}
+                />
+
+                <Button type="submit" variant="outlined">ПРИМЕНИТЬ ИЗМЕНЕНИЯ</Button>
+              </FormControl>
+            </FormGroup>
+          )}
+        </Stack>
       </Paper>
     )
   } else {
     return <div>"Loading..."</div>
   }
 }
-
-const InputForm = styled.form`
-  /* Box model */
-  display: flex;
-  gap: 1rem;
-`
-const ApplyChangesBtn = styled.button``
