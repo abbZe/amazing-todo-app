@@ -1,7 +1,3 @@
-import { Tasks } from "../containers"
+import { Tasks } from '../containers'
 
-export const Favorite = () => {
-  return (
-    <Tasks />
-  )
-}
+export const Favorite = () => <Tasks />

@@ -1,23 +1,24 @@
-import { TTasksObj } from '../../redux/tasks'
+import { v4 } from 'uuid'
+import { TTagsObj, TTasksObj } from '../../redux/tasks'
 import { Chip, Stack } from '@mui/material'
 
 type TagsListProps = {
   task: TTasksObj
-  clickTagHandler: (tag: string) => void
-  deleteTagHandler: (tag: string, index: number) => void
-  taskIndex: number
+  taskId: string
+  clickTagHandler: (tagValue: string) => void
+  clickDeleteTagBtnHandler: (taskId: string, tagId: string) => void
 }
 
-export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler, deleteTagHandler, taskIndex }) => (
+export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler, clickDeleteTagBtnHandler, taskId }) => (
   <>
     <Stack direction="row">
-      {task.tags.map((tag, index) => (
+      {task.tags.map((tag: TTagsObj) => (
         <Chip
-          key={index}
-          label={tag}
+          key={v4()}
+          label={tag.tagValue}
           variant="outlined"
-          onClick={() => clickTagHandler(tag)}
-          onDelete={() => deleteTagHandler(tag, index, taskIndex)}
+          onClick={() => clickTagHandler(tag.tagValue)}
+          onDelete={() => clickDeleteTagBtnHandler(taskId, tag.id)}
           sx={{ mx: '0.25rem' }}
         />
       ))}

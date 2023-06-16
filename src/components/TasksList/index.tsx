@@ -3,26 +3,18 @@ import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { AddTagForm, TagsList, TaskPrioritySelector } from '..'
 import { Link } from 'react-router-dom'
-import {
-  Card,
-  ListItem,
-  Typography,
-  CardActions,
-  CardHeader,
-  IconButton,
-  Checkbox,
-} from '@mui/material'
+import { Card, ListItem, Typography, CardActions, CardHeader, IconButton, Checkbox } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder'
 
 type TasksListProps = {
   tasks: Array<TTasksObj>
-  removeTaskHandler: (index: number) => void
-  submitAddTagHandler: (event: React.FormEvent<HTMLFormElement>, index: number) => void
-  addToFavHandler: (index: number) => void
+  removeTaskHandler: (taskId: string) => void
+  submitAddTagHandler: (event: React.FormEvent<HTMLFormElement>, taskId: string) => void
+  addToFavHandler: (taskId: string) => void
   clickTagHandler: (tag: string) => void
-  deleteTagHandler: (tag: string, index: number, indexOfTask: number) => void
+  clickDeleteTagBtnHandler: (taskId: string, tagId: string) => void
 }
 
 export const TasksList: React.FC<TasksListProps> = ({
@@ -31,7 +23,7 @@ export const TasksList: React.FC<TasksListProps> = ({
   submitAddTagHandler,
   addToFavHandler,
   clickTagHandler,
-  deleteTagHandler,
+  clickDeleteTagBtnHandler,
 }) => (
   <>
     {tasks.map((task: TTasksObj, index: number) => (
@@ -54,15 +46,15 @@ export const TasksList: React.FC<TasksListProps> = ({
                   icon={<BookmarkBorderIcon />}
                   checkedIcon={<BookmarkIcon />}
                   checked={task.isFavorite}
-                  onChange={() => addToFavHandler(index)}
+                  onChange={() => addToFavHandler(task.id)}
                 />
-                <TaskPrioritySelector index={index} />
-                <IconButton onClick={() => removeTaskHandler(index)}>
+                <TaskPrioritySelector taskId={task.id} />
+                <IconButton onClick={() => removeTaskHandler(task.id)}>
                   <DeleteIcon />
                 </IconButton>
               </CardActions>
-              <AddTagForm submitAddTagHandler={submitAddTagHandler} index={index} />
-              <TagsList taskIndex={index} task={task} deleteTagHandler={deleteTagHandler} clickTagHandler={clickTagHandler} />
+              <AddTagForm submitAddTagHandler={submitAddTagHandler} taskId={task.id} />
+              <TagsList taskId={task.id} task={task} clickDeleteTagBtnHandler={clickDeleteTagBtnHandler} clickTagHandler={clickTagHandler} />
             </Card>
           </ListItem>
         )}

@@ -1,22 +1,22 @@
 import { useDispatch } from 'react-redux'
-import { Priority, addPriority } from '../../redux/tasks'
+import { Priority, selectPriority } from '../../redux/tasks'
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
 import { useState } from 'react'
 
 type TaskPrioritySelectorProps = {
-  index: number
+  taskId: string
 }
 
-export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = ({ index }) => {
+export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = ({ taskId }) => {
   const dispatch = useDispatch()
   const [priority, setPriority] = useState<string>('')
 
-  const selectPriorityHandler = (event: SelectChangeEvent, taskIndex: number) => {
+  const selectPriorityHandler = (event: SelectChangeEvent, taskId: string) => {
     const priorityValue = event.target.value as string
 
     setPriority(priorityValue)
 
-    dispatch(addPriority({ priorityValue, taskIndex }))
+    dispatch(selectPriority({ priorityValue, taskId }))
   }
 
   return (
@@ -27,7 +27,7 @@ export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = ({ inde
         id="demo-simple-select"
         value={priority}
         label="Приоритет"
-        onChange={event => selectPriorityHandler(event, index)}
+        onChange={event => selectPriorityHandler(event, taskId)}
       >
         <MenuItem value="high">{Priority.high}</MenuItem>
         <MenuItem value="medium">{Priority.medium}</MenuItem>

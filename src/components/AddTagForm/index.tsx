@@ -2,12 +2,16 @@ import { FormControl, IconButton, InputAdornment, TextField } from '@mui/materia
 import AddIcon from '@mui/icons-material/Add'
 
 type AddTagFormProps = {
-  index: number
-  submitAddTagHandler: (event: React.FormEvent<HTMLFormElement>, index: number) => void
+  taskId: string
+  submitAddTagHandler: (event: React.FormEvent<HTMLFormElement>, taskId: string) => void
 }
 
-export const AddTagForm: React.FC<AddTagFormProps> = ({ submitAddTagHandler, index }) => (
-  <FormControl component="form" onSubmit={event => submitAddTagHandler(event, index)} sx={{ width: '100%', mb: '0.5rem' }}>
+export const AddTagForm: React.FC<AddTagFormProps> = ({ submitAddTagHandler, taskId }) => (
+  <FormControl
+    component="form"
+    onSubmit={event => submitAddTagHandler(event, taskId)}
+    sx={{ width: '100%', mb: '0.5rem' }}
+  >
     <TextField
       size="small"
       type="search"

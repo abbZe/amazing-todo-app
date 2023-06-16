@@ -5,18 +5,21 @@ export enum Priority {
   'medium' = 'средний',
   'high' = 'высокий',
 }
+export type TTagsObj = {
+  id: string
+  tagValue: string
+}
 export type TTasksObj = {
   id: string
   taskTitleValue: string
   taskBodyValue: string
   priority: string
-  tags: Array<string>
+  tags: Array<TTagsObj>
   isFavorite: boolean
   dateOfCreate: string
 }
 export type TInitialState = {
   tasks: Array<TTasksObj>
-  favoriteTasks: Array<TTasksObj>
   searchResults: Array<TTasksObj>
   searchTagResults: Array<TTasksObj>
   isSearchShows: boolean
@@ -28,7 +31,6 @@ export type TInitialState = {
 
 const initialState: TInitialState = {
   tasks: [],
-  favoriteTasks: [],
   searchResults: [],
   searchTagResults: [],
   isSearchShows: false,
@@ -63,11 +65,15 @@ const tasksSlice = createSlice({
 
       tasks.push(taskObj)
     },
-    removeTask(state, action: PayloadAction<number>) {
+    removeTask(state, action: PayloadAction<string>) {
       const { tasks } = state
-      const indexOfTaskToRemove = action.payload
+      const idOfTaskToRemove = action.payload
 
-      tasks.splice(indexOfTaskToRemove, 1)
+      state.tasks.map((task, index) => {
+        if (task.id === idOfTaskToRemove) {
+          tasks.splice(index, 1)
+        }
+      })
     },
     updateInputTaskTitleValue(state, action: PayloadAction<string>) {
       const valueFromTaskTitleInput = action.payload
@@ -79,21 +85,24 @@ const tasksSlice = createSlice({
 
       state.inputTaskBodyValue = valueFromTaskBodyInput
     },
-    addPriority(state, action) {
-      const { priorityValue, taskIndex } = action.payload
-      const { tasks } = state
+    selectPriority(state, action) {
+      const { priorityValue, taskId } = action.payload
 
-      switch (priorityValue) {
-        case 'low':
-          tasks[taskIndex].priority = Priority.low
-          break
-        case 'medium':
-          tasks[taskIndex].priority = Priority.medium
-          break
-        case 'high':
-          tasks[taskIndex].priority = Priority.high
-          break
-      }
+      state.tasks.map(task => {
+        if (task.id === taskId) {
+          switch (priorityValue) {
+            case 'low':
+              task.priority = Priority.low
+              break
+            case 'medium':
+              task.priority = Priority.medium
+              break
+            case 'high':
+              task.priority = Priority.high
+              break
+          }
+        }
+      })
     },
     updateAddTagInputValue(state, action) {
       const inputAddTagVal = action.payload
@@ -101,11 +110,15 @@ const tasksSlice = createSlice({
       state.inputAddTagValue = inputAddTagVal
     },
     addTagToTask(state, action) {
-      const { inputAddTagValue, indexOfTask } = action.payload
-      const { tags } = state.tasks[indexOfTask]
-      const normalizedTagValue = inputAddTagValue.trim().toLowerCase()
+      const { tagObj, taskId } = action.payload
 
-      tags.find(tag => tag === normalizedTagValue) ? null : tags.push(normalizedTagValue)
+      state.tasks.map(task => {
+        if (task.id === taskId) {
+          if (!task.tags.find(tag => tag.tagValue === tagObj.tagValue)) {
+            task.tags.push(tagObj)
+          }
+        }
+      })
     },
     updateTasksOrder(state, action) {
       state.tasks = action.payload
@@ -120,29 +133,29 @@ const tasksSlice = createSlice({
         state.searchResults = []
       }
     },
-    addTaskToFav(state, action) {
-      const indexOfTask = action.payload
-      let task = state.tasks[indexOfTask]
+    toggleFav(state, action) {
+      const taskId = action.payload
 
-      task.isFavorite ? (task.isFavorite = false) : (task.isFavorite = true)
+      state.tasks.map(task => {
+        if (task.id === taskId) {
+          task.isFavorite = !task.isFavorite
+        }
+      })
     },
     updateSearchTagResults(state, action) {
       const { tasks } = state
-      const tagFromHandler = action.payload
+      const tagValue = action.payload
 
       if (state.searchTagResults.length > 0) {
         state.searchTagResults = []
       } else {
         state.searchTagResults = []
 
-        tasks.map(task => (task.tags.find(tag => tag === tagFromHandler) ? state.searchTagResults.push(task) : null))
-
-        // Maybe i shoud stay with IF ELSE...
-        //tasks.map(task => {
-        //if (task.tags.find(tag => tag === tagFromHandler)) {
-        //state.searchTagResults.push(task)
-        //}
-        //})
+        tasks.map(task =>
+          task.tags.find(tag => {
+            tag.tagValue === tagValue ? state.searchTagResults.push(task) : null
+          })
+        )
       }
     },
     editTask(state, action) {
@@ -164,27 +177,26 @@ const tasksSlice = createSlice({
       })
     },
     removeTag(state, action) {
-      const { tasks } = state
-      const indexOfTag = Number(action.payload[1])
-      const indexOfTask = Number(action.payload[2])
+      const { taskId, tagId } = action.payload
 
-      tasks[indexOfTask].tags.splice(indexOfTag, 1)
+      state.tasks.map(task => {
+        if (taskId === task.id) {
+          let index = task.tags.findIndex(tag => tag.id === tagId)
+          task.tags.splice(index, 1)
+        }
+      })
     },
     toggleSearch(state, action) {
       state.isSearchShows = action.payload
     },
-    updateFavoriteTasks(state) {
-      state.favoriteTasks = state.tasks.filter(task => task.isFavorite)
-    }
   },
 })
 
 export default tasksSlice.reducer
 export const {
   addTask,
-  addPriority,
+  selectPriority,
   addTagToTask,
-  addTaskToFav,
   removeTask,
   removeTag,
   editTask,
@@ -195,6 +207,6 @@ export const {
   updateInputTaskBodyValue,
   updateAddTagInputValue,
   updateSearchTagResults,
-  updateFavoriteTasks,
   toggleSearch,
+  toggleFav,
 } = tasksSlice.actions

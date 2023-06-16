@@ -4,10 +4,11 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import SearchIcon from '@mui/icons-material/Search'
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { toggleSearch, updateFavoriteTasks } from '../../redux/tasks'
+import { toggleSearch } from '../../redux/tasks'
 import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { selectTasks } from '../../redux/tasks/selectors'
+import { Search } from '..'
 
 export const BottomNav = () => {
   const dispatch = useDispatch()
@@ -20,13 +21,12 @@ export const BottomNav = () => {
     setValue(newValue)
   }
   const favPageHandler = () => {
-    dispatch(updateFavoriteTasks())
-
     navigate('/favorite')
   }
 
   return (
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999 }} elevation={3}>
+      <Search />
       <BottomNavigation
         value={value}
         onChange={changePageHandler}

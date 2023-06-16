@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectTasks } from '../redux/tasks/selectors'
 import { TaskValue } from '../components'
@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import CustomEditor from 'ckeditor5-custom-build'
 import { useState } from 'react'
+import { Button, Paper } from '@mui/material'
 
 export const TaskPage: React.FC = () => {
   const dispatch = useDispatch()
@@ -33,9 +34,9 @@ export const TaskPage: React.FC = () => {
 
   if (id) {
     return (
-      <>
+      <Paper elevation={1} sx={{ p: '1rem' }}>
         <TaskValue id={id} tasks={tasks} />
-        <EditTaskBtn onClick={() => setIsHide(!isHide)}>EDIT TASK</EditTaskBtn>
+        <Button variant="outlined" onClick={() => setIsHide(!isHide)}>EDIT TASK</Button>
         {isHide ? null : (
           <InputForm onSubmit={submitEditTaskHandler}>
             <CKEditor
@@ -48,7 +49,7 @@ export const TaskPage: React.FC = () => {
             <ApplyChangesBtn type="submit">ПРИМЕНИТЬ ИЗМЕНЕНИЯ</ApplyChangesBtn>
           </InputForm>
         )}
-        <Link to="/">Назад</Link> </>
+      </Paper>
     )
   } else {
     return <div>"Loading..."</div>
@@ -61,4 +62,3 @@ const InputForm = styled.form`
   gap: 1rem;
 `
 const ApplyChangesBtn = styled.button``
-const EditTaskBtn = styled.button``

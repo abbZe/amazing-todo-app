@@ -15,9 +15,8 @@ const theme = createTheme({})
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   //<React.StrictMode>
   <BrowserRouter>
-    {/* redux provider is provider for state of app */}
+    {/* provider from redux is a state provider for app */}
     <Provider store={store}>
-      {/* theme provider is custom theme provider for MUI */}
       <ThemeProvider theme={theme}>
         {/* css baseline is rest of application styles */}
         <CssBaseline />

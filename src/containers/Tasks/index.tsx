@@ -1,24 +1,25 @@
 import { useDispatch, useSelector } from 'react-redux'
 import {
   addTagToTask,
-  addTaskToFav,
+  toggleFav,
   removeTag,
   removeTask,
   updateSearchTagResults,
   updateTasksOrder,
+  TTasksObj,
 } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
 import { List, Paper, Typography } from '@mui/material'
+import { v4 } from 'uuid'
 import { useLocation } from 'react-router-dom'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { tasks, favoriteTasks, inputSearchValue, searchResults, searchTagResults } = useSelector(selectTasks)
-  console.log(location.pathname)
+  const { tasks, inputSearchValue, searchResults, searchTagResults } = useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -29,36 +30,44 @@ export const Tasks: React.FC = () => {
       dispatch(updateTasksOrder(items))
     }
   }
-  const removeTaskHandler = (taskIndex: number) => dispatch(removeTask(taskIndex))
-  const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, indexOfTask: number) => {
+  const removeTaskHandler = (taskId: string) => dispatch(removeTask(taskId))
+  const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, taskId: string) => {
     event.preventDefault()
 
-    if (event.target) {
-      // @ts-ignore
-      const { value } = event.target[0] as HTMLInputElement
-      const inputAddTagValue = value
+    const { value } = event.target[0] as HTMLInputElement
+    const inputAddTagValue: string = value.trim().toLowerCase()
 
-      dispatch(addTagToTask({ inputAddTagValue, indexOfTask }))
+    const tagObj = {
+      id: v4(),
+      tagValue: inputAddTagValue,
+    }
+
+    if (event.target) {
+      dispatch(addTagToTask({ tagObj, taskId }))
     }
   }
-  const addToFavHandler = (index: number) => {
-    dispatch(addTaskToFav(index))
+  const addToFavHandler = (taskId: string) => {
+    dispatch(toggleFav(taskId))
   }
-  const clickTagHandler = (tag: string) => {
-    dispatch(updateSearchTagResults(tag))
+  const clickTagHandler = (tagValue: string) => {
+    dispatch(updateSearchTagResults(tagValue))
   }
-  const deleteTagHandler = (tag: string, index: number, taskIndex: number) => {
-    dispatch(removeTag([tag, index, taskIndex]))
+  const clickDeleteTagBtnHandler = (taskId: string, tagId: string) => {
+    dispatch(removeTag({ taskId, tagId }))
   }
-  const whichTasksWillDisplay = () => (
-    location.pathname === '/favorite'
+  const whichTasksWillDisplay = () => {
+    const favoriteTasks: Array<TTasksObj> = []
+
+    tasks.map(task => (task.isFavorite ? favoriteTasks.push(task) : null))
+
+    return favoriteTasks && location.pathname === '/favorite'
       ? favoriteTasks
       : inputSearchValue
         ? searchResults
         : searchTagResults.length > 0
           ? searchTagResults
           : tasks
-  )
+  }
 
   return (
     <Paper elevation={2} sx={{ p: '1rem' }}>
@@ -72,10 +81,10 @@ export const Tasks: React.FC = () => {
               <TasksList
                 tasks={whichTasksWillDisplay()}
                 removeTaskHandler={removeTaskHandler}
-                submitAddTagHandler={submitAddTagHandler}
                 addToFavHandler={addToFavHandler}
+                submitAddTagHandler={submitAddTagHandler}
                 clickTagHandler={clickTagHandler}
-                deleteTagHandler={deleteTagHandler}
+                clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
               />
               {provided.placeholder}
             </List>
