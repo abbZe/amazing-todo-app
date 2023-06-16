@@ -1,5 +1,5 @@
-import { Paper, Typography } from '@mui/material'
-import { TaskBody, TaskTitle } from '..'
+import { Alert, Box, Paper, Typography } from '@mui/material'
+import { TaskBody } from '..'
 import { TTasksObj } from '../../redux/tasks'
 import { v4 } from 'uuid'
 
@@ -13,12 +13,21 @@ export const TaskValue: React.FC<TaskValueProps> = ({ id, tasks }) => {
     <>
       {tasks.map((task: TTasksObj) =>
         task.id === id ? (
-          <div key={v4()}>
-            <TaskTitle title={task.taskTitleValue} />
+          <Box key={v4()}>
+
+            <Typography sx={{ textAlign: 'center', position: 'sticky', top: '0' }} variant="h4">
+              {task.taskTitleValue}
+            </Typography>
+
             <Paper elevation={2} sx={{ p: '1rem', marginBlock: '1rem' }}>
-              {task.taskBodyValue ? <TaskBody body={task.taskBodyValue} /> : <Typography>Описания нет</Typography>}
+              {task.taskBodyValue ? (
+                <TaskBody body={task.taskBodyValue} />
+              ) : (
+                <Alert severity="info">Описания нет, самое время добавить</Alert>
+              )}
             </Paper>
-          </div>
+
+          </Box>
         ) : null
       )}
     </>

@@ -67,16 +67,17 @@ export const BottomNav = () => {
           onClick={() => navigate('/')}
         />
 
-        <BottomNavigationAction
-          label="Создать"
-          icon={
-            <Tooltip title="Создать заметку">
-              <AddIcon />
-            </Tooltip>
-          }
-          onClick={clickAddNoteHandler}
-        />
-        AddTaskForm
+        {location.pathname === '/' ? (
+          <BottomNavigationAction
+            label="Создать"
+            icon={
+              <Tooltip title="Создать заметку">
+                <AddIcon />
+              </Tooltip>
+            }
+            onClick={clickAddNoteHandler}
+          />
+        ) : null}
 
         {location.pathname === '/' ? (
           <BottomNavigationAction

@@ -33,7 +33,7 @@ export type TInitialState = {
 }
 
 const initialState: TInitialState = {
-  themeMode: 'light',
+  themeMode: 'dark',
   tasks: [],
   searchResults: [],
   searchTagResults: [],

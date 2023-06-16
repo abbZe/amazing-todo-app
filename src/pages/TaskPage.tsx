@@ -33,16 +33,20 @@ export const TaskPage: React.FC = () => {
 
   if (id) {
     return (
-      <Paper elevation={1} sx={{ p: '1rem' }}>
+      <Paper elevation={0} sx={{ p: '1rem', height: '100vh' }}>
         <Stack>
           <TaskValue id={id} tasks={tasks} />
-          <Button variant="outlined" color={isHide ? "primary" : "secondary"} onClick={() => setIsHide(!isHide)} >Редактировать</Button>
+          <Button variant="outlined" color={isHide ? 'primary' : 'secondary'} onClick={() => setIsHide(!isHide)}>
+            Редактировать
+          </Button>
         </Stack>
 
         <Stack>
           {isHide ? null : (
             <FormGroup>
-              <Typography component="h2" variant="h4">Отредактировать заметку</Typography>
+              <Typography component="h2" variant="h4">
+                Отредактировать заметку
+              </Typography>
               <FormControl component="form" onSubmit={submitEditTaskHandler} sx={{ gap: 2, width: '100%' }}>
                 <CKEditor
                   editor={CustomEditor}
@@ -51,7 +55,9 @@ export const TaskPage: React.FC = () => {
                   onReady={() => editorDefaultValueHandler(id)}
                 />
 
-                <Button type="submit" variant="outlined">ПРИМЕНИТЬ ИЗМЕНЕНИЯ</Button>
+                <Button type="submit" variant="outlined">
+                  ПРИМЕНИТЬ ИЗМЕНЕНИЯ
+                </Button>
               </FormControl>
             </FormGroup>
           )}
