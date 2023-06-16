@@ -1,4 +1,4 @@
-import { TTasksObj, toggleAddNote } from '../../redux/tasks'
+import { TTagsObj, TTasksObj, toggleAddNote } from '../../redux/tasks'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { AddTagForm, TagsList, TaskPrioritySelector } from '..'
@@ -15,6 +15,7 @@ import {
   Box,
   Alert,
   Tooltip,
+  Stack,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
@@ -25,7 +26,7 @@ type TasksListProps = {
   removeTaskHandler: (taskId: string) => void
   submitAddTagHandler: (event: React.FormEvent<HTMLFormElement>, taskId: string) => void
   addToFavHandler: (taskId: string) => void
-  clickTagHandler: (tag: string) => void
+  clickTagHandler: (tag: TTagsObj) => void
   clickDeleteTagBtnHandler: (taskId: string, tagId: string) => void
   clickTaskTitleHandler: () => void
 }
@@ -50,8 +51,13 @@ export const TasksList: React.FC<TasksListProps> = ({
                   <CardHeader
                     title={
                       <Typography variant="h6" component="h2">
-                        <Link component={RouterLink} to={`/task/${task.id}`} underline="none" variant="h5" onClick={clickTaskTitleHandler}>
-                          {task.priority ? <Alert severity="warning">{task.priority} приоритет</Alert> : null}
+                        <Link
+                          component={RouterLink}
+                          to={`/task/${task.id}`}
+                          underline="none"
+                          variant="h5"
+                          onClick={clickTaskTitleHandler}
+                        >
                           {index + 1}. {task.taskTitleValue}
                         </Link>
                       </Typography>
@@ -85,6 +91,7 @@ export const TasksList: React.FC<TasksListProps> = ({
                     clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
                     clickTagHandler={clickTagHandler}
                   />
+                  {task.priority ? <Alert severity="warning">{task.priority} приоритет</Alert> : null}
                 </Card>
               </ListItem>
             )}

@@ -5,21 +5,21 @@ import { Chip, Stack } from '@mui/material'
 type TagsListProps = {
   task: TTasksObj
   taskId: string
-  clickTagHandler: (tagValue: string) => void
+  clickTagHandler: (tag: TTagsObj) => void
   clickDeleteTagBtnHandler: (taskId: string, tagId: string) => void
 }
 
 export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler, clickDeleteTagBtnHandler, taskId }) => (
   <>
-    <Stack direction="row">
+    <Stack direction="row" sx={{ overflowX: 'scroll' }}>
       {task.tags.map((tag: TTagsObj) => (
         <Chip
           key={v4()}
           label={tag.tagValue}
           variant="outlined"
-          onClick={() => clickTagHandler(tag.tagValue)}
+          onClick={() => clickTagHandler(tag)}
           onDelete={() => clickDeleteTagBtnHandler(taskId, tag.id)}
-          sx={{ mx: '0.25rem' }}
+          sx={{ mx: '0.25rem', mb: '0.5rem', height: '2.5rem' }}
         />
       ))}
     </Stack>

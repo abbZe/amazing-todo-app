@@ -24,6 +24,7 @@ export type TInitialState = {
   tasks: Array<TTasksObj>
   searchResults: Array<TTasksObj>
   searchTagResults: Array<TTasksObj>
+  searchTagValue: string
   isSearchShows: boolean
   isAddNoteShows: boolean
   inputTaskTitleValue: string
@@ -37,6 +38,7 @@ const initialState: TInitialState = {
   tasks: [],
   searchResults: [],
   searchTagResults: [],
+  searchTagValue: '',
   isSearchShows: false,
   isAddNoteShows: false,
   inputTaskTitleValue: '',
@@ -203,6 +205,9 @@ const tasksSlice = createSlice({
     updateThemeMode(state) {
       state.themeMode === 'dark' ? (state.themeMode = 'light') : (state.themeMode = 'dark')
     },
+    updateSearchTagValue(state, action) {
+      state.searchTagValue === action.payload ? (state.searchTagValue = '') : (state.searchTagValue = action.payload)
+    },
   },
 })
 
@@ -222,6 +227,7 @@ export const {
   updateAddTagInputValue,
   updateSearchTagResults,
   updateThemeMode,
+  updateSearchTagValue,
   toggleSearch,
   toggleFav,
   toggleAddNote,

@@ -59,6 +59,7 @@ export const AddTaskForm = () => {
                   onChange={taskTitleInputHandler}
                   required
                   label="заголовок"
+                  autoFocus
                 />
 
                 <CKEditor editor={CustomEditor} data={inputTaskBodyValue} onChange={taskBodyInputHandler} />

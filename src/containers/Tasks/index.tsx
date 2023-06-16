@@ -8,6 +8,8 @@ import {
   updateTasksOrder,
   TTasksObj,
   toggleAddNote,
+  TTagsObj,
+  updateSearchTagValue,
 } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
@@ -20,7 +22,8 @@ import { useLocation } from 'react-router-dom'
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { tasks, inputSearchValue, searchResults, searchTagResults, isAddNoteShows } = useSelector(selectTasks)
+  const { tasks, inputSearchValue, searchResults, searchTagResults, searchTagValue, isAddNoteShows } =
+    useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -50,13 +53,14 @@ export const Tasks: React.FC = () => {
   const addToFavHandler = (taskId: string) => {
     dispatch(toggleFav(taskId))
   }
-  const clickTagHandler = (tagValue: string) => {
-    dispatch(updateSearchTagResults(tagValue))
+  const clickTagHandler = (tag: TTagsObj) => {
+    dispatch(updateSearchTagResults(tag.tagValue))
+    dispatch(updateSearchTagValue(tag.tagValue))
   }
   const clickDeleteTagBtnHandler = (taskId: string, tagId: string) => {
     dispatch(removeTag({ taskId, tagId }))
   }
-  const clickTaskTitleHandler = () => isAddNoteShows ? dispatch(toggleAddNote(!isAddNoteShows)) : null
+  const clickTaskTitleHandler = () => (isAddNoteShows ? dispatch(toggleAddNote(!isAddNoteShows)) : null)
   const whichTasksWillDisplay = () => {
     const favoriteTasks: Array<TTasksObj> = []
 
@@ -72,9 +76,18 @@ export const Tasks: React.FC = () => {
   }
 
   return (
-    <Paper elevation={0} sx={{ height: "100vh" }}>
-      <Typography sx={{ textAlign: "center", position: "sticky", top: "0", zIndex: "999", backgroundColor: "inherit" }} variant="h4" component="h2">
+    <Paper elevation={0} sx={{ height: '100vh' }}>
+      <Typography
+        sx={{ textAlign: 'center', position: 'sticky', top: '0', zIndex: '999', backgroundColor: 'inherit' }}
+        variant="h4"
+        component="h2"
+      >
         Заметки
+        {searchTagValue ? (
+          <Typography color="secondary" variant="h5">
+            с тегом {searchTagValue}
+          </Typography>
+        ) : null}
       </Typography>
       <DragDropContext onDragEnd={onDragEndHandler}>
         <Droppable droppableId="tasksUl">
