@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom'
+import { useParams, Link as RouterLink } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { selectTasks } from '../redux/tasks/selectors'
 import { TaskValue } from '../components'
@@ -7,7 +7,7 @@ import { editTask, setEditorValueSimiliarToTaskBody, updateInputTaskBodyValue } 
 import { useDispatch } from 'react-redux'
 import CustomEditor from 'ckeditor5-custom-build'
 import { useState } from 'react'
-import { Button, FormControl, FormGroup, Paper, Stack, Typography } from '@mui/material'
+import { Box, Button, FormControl, FormGroup, Link, Paper, Stack, Typography } from '@mui/material'
 
 export const TaskPage: React.FC = () => {
   const dispatch = useDispatch()
@@ -33,17 +33,22 @@ export const TaskPage: React.FC = () => {
 
   if (id) {
     return (
-      <Paper elevation={0} sx={{ p: '1rem', height: '100vh' }}>
-        <Stack>
+      <Box sx={{ p: '1rem', height: '100vh' }}>
+        <Stack spacing={1}>
           <TaskValue id={id} tasks={tasks} />
-          <Button variant="outlined" color={isHide ? 'primary' : 'secondary'} onClick={() => setIsHide(!isHide)}>
+          <Button variant="contained" size='large' color={isHide ? 'primary' : 'secondary'} onClick={() => setIsHide(!isHide)}>
             Редактировать
           </Button>
+          <Link component={RouterLink} to="/" >
+            <Button variant="outlined" size='large' sx={{ width: "100%" }}>
+              Назад
+            </Button>
+          </Link>
         </Stack>
 
         <Stack>
           {isHide ? null : (
-            <FormGroup>
+            <FormGroup sx={{ marginBlock: '2rem' }}>
               <Typography component="h2" variant="h4">
                 Отредактировать заметку
               </Typography>
@@ -55,14 +60,14 @@ export const TaskPage: React.FC = () => {
                   onReady={() => editorDefaultValueHandler(id)}
                 />
 
-                <Button type="submit" variant="outlined">
-                  ПРИМЕНИТЬ ИЗМЕНЕНИЯ
+                <Button type="submit" size='large' variant="outlined">
+                  Применить изменения
                 </Button>
               </FormControl>
             </FormGroup>
           )}
         </Stack>
-      </Paper>
+      </Box>
     )
   } else {
     return <div>"Loading..."</div>

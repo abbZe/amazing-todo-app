@@ -11,7 +11,7 @@ type TagsListProps = {
 
 export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler, clickDeleteTagBtnHandler, taskId }) => (
   <>
-    <Stack direction="row" sx={{ overflowX: 'scroll' }}>
+    <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
       {task.tags.map((tag: TTagsObj) => (
         <Chip
           key={v4()}

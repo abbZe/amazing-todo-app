@@ -1,0 +1,4 @@
+/*Bug fix for white text at dark mode*/
+.ck.ck-editor__main>.ck-editor__editable {
+  color: black;
+}

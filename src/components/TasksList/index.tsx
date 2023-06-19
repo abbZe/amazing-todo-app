@@ -1,7 +1,7 @@
-import { TTagsObj, TTasksObj, toggleAddNote } from '../../redux/tasks'
+import { TTagsObj, TTasksObj } from '../../redux/tasks'
 import React from 'react'
 import { Draggable } from 'react-beautiful-dnd'
-import { AddTagForm, TagsList, TaskPrioritySelector } from '..'
+import { AddTagForm, TagsList, TaskPrioritySelector, TasksPlaceholder } from '..'
 import { Link as RouterLink } from 'react-router-dom'
 import {
   Link,
@@ -15,7 +15,6 @@ import {
   Box,
   Alert,
   Tooltip,
-  Stack,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
@@ -28,7 +27,6 @@ type TasksListProps = {
   addToFavHandler: (taskId: string) => void
   clickTagHandler: (tag: TTagsObj) => void
   clickDeleteTagBtnHandler: (taskId: string, tagId: string) => void
-  clickTaskTitleHandler: () => void
 }
 
 export const TasksList: React.FC<TasksListProps> = ({
@@ -38,31 +36,24 @@ export const TasksList: React.FC<TasksListProps> = ({
   addToFavHandler,
   clickTagHandler,
   clickDeleteTagBtnHandler,
-  clickTaskTitleHandler,
 }) => {
   if (tasks.length > 0) {
     return (
-      <Box>
+      <Box sx={{ paddingBottom: '4rem' }}>
         {tasks.map((task: TTasksObj, index: number) => (
           <Draggable key={task.id} draggableId={task.id} index={index}>
             {provided => (
               <ListItem {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                <Card sx={{ width: '100vw', p: '0.5rem' }}>
+                <Card sx={{ width: '100vw', p: '0.5rem', borderRadius: '1rem' }}>
                   <CardHeader
                     title={
-                      <Typography variant="h6" component="h2">
-                        <Link
-                          component={RouterLink}
-                          to={`/task/${task.id}`}
-                          underline="none"
-                          variant="h5"
-                          onClick={clickTaskTitleHandler}
-                        >
+                      <Link component={RouterLink} to={`/task/${task.id}`} underline="none" variant="h5">
+                        <Typography variant="h4" component="h4" sx={{ textAlign: 'center' }}>
                           {index + 1}. {task.taskTitleValue}
-                        </Link>
-                      </Typography>
+                        </Typography>
+                      </Link>
                     }
-                    subheader={task.dateOfCreate}
+                    subheader={<Typography sx={{ textAlign: 'center' }}>{task.dateOfCreate}</Typography>}
                   />
                   <CardActions>
                     <Tooltip title="Добавить в избранное">
@@ -100,10 +91,6 @@ export const TasksList: React.FC<TasksListProps> = ({
       </Box>
     )
   } else {
-    return location.pathname === '/favorite' ? (
-      <Alert severity="info">Пусто, самое время добавить что-нибудь в избранное</Alert>
-    ) : (
-      <Alert severity="info">Время создать заметку</Alert>
-    )
+    return <TasksPlaceholder />
   }
 }

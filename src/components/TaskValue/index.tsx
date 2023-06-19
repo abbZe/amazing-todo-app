@@ -19,14 +19,11 @@ export const TaskValue: React.FC<TaskValueProps> = ({ id, tasks }) => {
               {task.taskTitleValue}
             </Typography>
 
-            <Paper elevation={2} sx={{ p: '1rem', marginBlock: '1rem' }}>
-              {task.taskBodyValue ? (
-                <TaskBody body={task.taskBodyValue} />
-              ) : (
-                <Alert severity="info">Описания нет, самое время добавить</Alert>
-              )}
-            </Paper>
-
+            {task.taskBodyValue ? (
+              <TaskBody body={task.taskBodyValue} />
+            ) : (
+              <Alert sx={{ marginBlock: '1rem' }} severity="info">Описания нет, самое время добавить</Alert>
+            )}
           </Box>
         ) : null
       )}

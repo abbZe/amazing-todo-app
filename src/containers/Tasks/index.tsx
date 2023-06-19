@@ -7,7 +7,6 @@ import {
   updateSearchTagResults,
   updateTasksOrder,
   TTasksObj,
-  toggleAddNote,
   TTagsObj,
   updateSearchTagValue,
 } from '../../redux/tasks'
@@ -22,8 +21,7 @@ import { useLocation } from 'react-router-dom'
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { tasks, inputSearchValue, searchResults, searchTagResults, searchTagValue, isAddNoteShows } =
-    useSelector(selectTasks)
+  const { tasks, inputSearchValue, searchResults, searchTagResults, searchTagValue } = useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -60,7 +58,6 @@ export const Tasks: React.FC = () => {
   const clickDeleteTagBtnHandler = (taskId: string, tagId: string) => {
     dispatch(removeTag({ taskId, tagId }))
   }
-  const clickTaskTitleHandler = () => (isAddNoteShows ? dispatch(toggleAddNote(!isAddNoteShows)) : null)
   const whichTasksWillDisplay = () => {
     const favoriteTasks: Array<TTasksObj> = []
 
@@ -76,7 +73,7 @@ export const Tasks: React.FC = () => {
   }
 
   return (
-    <Paper elevation={0} sx={{ height: '100vh' }}>
+    <>
       <Typography
         sx={{ textAlign: 'center', position: 'sticky', top: '0', zIndex: '999', backgroundColor: 'inherit' }}
         variant="h4"
@@ -86,6 +83,10 @@ export const Tasks: React.FC = () => {
         {searchTagValue ? (
           <Typography color="secondary" variant="h5">
             с тегом {searchTagValue}
+          </Typography>
+        ) : inputSearchValue ? (
+          <Typography color="secondary" variant="h5">
+            включающие в себя {inputSearchValue}
           </Typography>
         ) : null}
       </Typography>
@@ -100,13 +101,12 @@ export const Tasks: React.FC = () => {
                 submitAddTagHandler={submitAddTagHandler}
                 clickTagHandler={clickTagHandler}
                 clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
-                clickTaskTitleHandler={clickTaskTitleHandler}
               />
               {provided.placeholder}
             </List>
           )}
         </Droppable>
       </DragDropContext>
-    </Paper>
+    </>
   )
 }

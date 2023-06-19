@@ -6,10 +6,12 @@ export enum Priority {
   'high' = 'высокий',
   'none' = 'нет',
 }
+
 export type TTagsObj = {
   id: string
   tagValue: string
 }
+
 export type TTasksObj = {
   id: string
   taskTitleValue: string
@@ -19,6 +21,7 @@ export type TTasksObj = {
   isFavorite: boolean
   dateOfCreate: string
 }
+
 export type TInitialState = {
   themeMode: 'light' | 'dark'
   tasks: Array<TTasksObj>
@@ -68,7 +71,7 @@ const tasksSlice = createSlice({
       taskObj.taskBodyValue = state.inputTaskBodyValue
       taskObj.dateOfCreate = date
 
-      let { tasks } = state
+      const { tasks } = state
 
       tasks.push(taskObj)
     },
@@ -191,7 +194,7 @@ const tasksSlice = createSlice({
 
       state.tasks.map(task => {
         if (taskId === task.id) {
-          let index = task.tags.findIndex(tag => tag.id === tagId)
+          const index = task.tags.findIndex(tag => tag.id === tagId)
           task.tags.splice(index, 1)
         }
       })

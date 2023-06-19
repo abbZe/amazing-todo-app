@@ -1,11 +1,12 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { createTheme, Paper, ThemeProvider } from '@mui/material'
+import { Box, createTheme, Paper, ThemeProvider } from '@mui/material'
 
 import MainLayout from './layouts/MainLayout.tsx'
 import { Favorite, Home, NotFound, TaskPage } from './pages'
 import { selectTasks } from './redux/tasks/selectors.ts'
 import { useSelector } from 'react-redux'
+import './App.css'
 
 const App: React.FC = () => {
   const { themeMode } = useSelector(selectTasks)
@@ -28,8 +29,8 @@ const App: React.FC = () => {
             contrastText: '#000',
           },
           background: {
-            paper: themeMode === 'light' ? '#fafafa' : '#1c1c1c',
-            default: themeMode === 'light' ? '#fff' : '#121212',
+            paper: themeMode === 'light' ? '#fafafa' : '#121212',
+            default: themeMode === 'light' ? '#fff' : '#1c1c1c',
           },
           text: {
             primary: themeMode === 'light' ? '#000' : '#fff',
@@ -45,7 +46,7 @@ const App: React.FC = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Paper sx={{ height: '100%', paddingBottom: "3rem" }}>
+      <Paper sx={{ height: 'auto', minHeight: '100vh' }}>
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route path="" element={<Home />} />
