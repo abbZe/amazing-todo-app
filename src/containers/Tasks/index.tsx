@@ -21,7 +21,7 @@ import { useLocation } from 'react-router-dom'
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { tasks, inputSearchValue, searchResults, searchTagResults, searchTagValue } = useSelector(selectTasks)
+  const { tasks, inputSearchValue, searchResults, searchTagResults, searchTagValue, themeMode } = useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -32,7 +32,9 @@ export const Tasks: React.FC = () => {
       dispatch(updateTasksOrder(items))
     }
   }
+
   const removeTaskHandler = (taskId: string) => dispatch(removeTask(taskId))
+
   const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, taskId: string) => {
     event.preventDefault()
 
@@ -48,16 +50,20 @@ export const Tasks: React.FC = () => {
       dispatch(addTagToTask({ tagObj, taskId }))
     }
   }
+
   const addToFavHandler = (taskId: string) => {
     dispatch(toggleFav(taskId))
   }
+
   const clickTagHandler = (tag: TTagsObj) => {
     dispatch(updateSearchTagResults(tag.tagValue))
     dispatch(updateSearchTagValue(tag.tagValue))
   }
+
   const clickDeleteTagBtnHandler = (taskId: string, tagId: string) => {
     dispatch(removeTag({ taskId, tagId }))
   }
+
   const whichTasksWillDisplay = () => {
     const favoriteTasks: Array<TTasksObj> = []
 
@@ -75,7 +81,7 @@ export const Tasks: React.FC = () => {
   return (
     <>
       <Typography
-        sx={{ textAlign: 'center', position: 'sticky', top: '0', zIndex: '999', backgroundColor: 'inherit' }}
+        sx={{ textAlign: 'center', position: 'sticky', top: '0', zIndex: '999', backgroundColor: 'inherit', p: '0.8rem' }}
         variant="h4"
         component="h2"
       >
@@ -101,6 +107,7 @@ export const Tasks: React.FC = () => {
                 submitAddTagHandler={submitAddTagHandler}
                 clickTagHandler={clickTagHandler}
                 clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
+                themeMode={themeMode}
               />
               {provided.placeholder}
             </List>

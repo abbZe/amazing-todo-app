@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
-import { Box, createTheme, Paper, ThemeProvider } from '@mui/material'
+import { createTheme, CssBaseline, Paper, ThemeProvider } from '@mui/material'
 
 import MainLayout from './layouts/MainLayout.tsx'
 import { Favorite, Home, NotFound, TaskPage } from './pages'
@@ -11,41 +11,42 @@ import './App.css'
 const App: React.FC = () => {
   const { themeMode } = useSelector(selectTasks)
 
-  const theme = React.useMemo(
-    () =>
-      createTheme({
-        palette: {
-          mode: themeMode,
-          primary: {
-            main: '#bb86fc',
-            light: '#ee69af',
-            dark: '#9b3cb9',
-            contrastText: '#fff',
-          },
-          secondary: {
-            main: '#03dac6',
-            light: '#78ffd6',
-            dark: '#00a896',
-            contrastText: '#000',
-          },
-          background: {
-            paper: themeMode === 'light' ? '#fafafa' : '#121212',
-            default: themeMode === 'light' ? '#fff' : '#1c1c1c',
-          },
-          text: {
-            primary: themeMode === 'light' ? '#000' : '#fff',
-            secondary: themeMode === 'light' ? '#656565' : '#a5a5a5',
-          },
+  const theme =
+    createTheme({
+      palette: {
+        mode: themeMode,
+        primary: {
+          main: themeMode === 'light' ? '#2aa198' : '#bb86fc',
+          light: '#ee69af',
+          dark: themeMode === 'light' ? '#2aa171' : '#bb86fc',
+          contrastText: '#fff',
         },
-        typography: {
-          fontFamily: 'Roboto',
+        secondary: {
+          main: '#03dac6',
+          light: '#78ffd6',
+          dark: '#00a896',
+          contrastText: '#000',
         },
-      }),
-    [themeMode]
-  )
+        background: {
+          paper: themeMode === 'light' ? '#fdf6e3' : '#121212',
+          default: themeMode === 'light' ? '#fdf6e3' : '#1c1c1c',
+        },
+        text: {
+          primary: themeMode === 'light' ? '#657b83' : '#fff',
+          secondary: themeMode === 'light' ? '#91a1a1' : '#a5a5a5',
+        },
+        info: {
+          main: themeMode === 'light' ? '#03dac6' : '#bb86fc',
+        }
+      },
+      typography: {
+        fontFamily: 'Roboto',
+      },
+    })
 
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Paper sx={{ height: 'auto', minHeight: '100vh' }}>
         <Routes>
           <Route path="/" element={<MainLayout />}>
