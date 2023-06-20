@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { selectTasks } from '../../redux/tasks/selectors'
+import { selectTasks } from '../../redux/tasks/selectors.ts'
 import { useSelector } from 'react-redux'
 
 export const AnimatedLogo = () => {

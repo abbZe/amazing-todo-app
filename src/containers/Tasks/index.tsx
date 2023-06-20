@@ -13,10 +13,11 @@ import {
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
-import { AnimatedLogo, TasksList } from '../../components'
+import { TasksList } from '../../components'
 import { List, Typography } from '@mui/material'
 import { v4 } from 'uuid'
 import { useLocation } from 'react-router-dom'
+import { AnimatedLogo } from '../index.ts'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()

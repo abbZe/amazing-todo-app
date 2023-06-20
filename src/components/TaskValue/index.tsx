@@ -1,4 +1,4 @@
-import { Alert, Box, Paper, Typography } from '@mui/material'
+import { Alert, Box, Typography } from '@mui/material'
 import { TaskBody } from '..'
 import { TTasksObj } from '../../redux/tasks'
 import { v4 } from 'uuid'

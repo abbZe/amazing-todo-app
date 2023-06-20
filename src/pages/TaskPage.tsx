@@ -7,7 +7,7 @@ import { editTask, setEditorValueSimiliarToTaskBody, updateInputTaskBodyValue } 
 import { useDispatch } from 'react-redux'
 import CustomEditor from 'ckeditor5-custom-build'
 import { useState } from 'react'
-import { Box, Button, FormControl, FormGroup, Link, Paper, Stack, Typography } from '@mui/material'
+import { Box, Button, FormControl, FormGroup, Link, Stack, Typography } from '@mui/material'
 
 export const TaskPage: React.FC = () => {
   const dispatch = useDispatch()
