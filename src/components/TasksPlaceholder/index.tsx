@@ -7,17 +7,17 @@ type TasksPlaceholderProps = {
 }
 
 export const TasksPlaceholder: React.FC<TasksPlaceholderProps> = ({ themeMode }) => {
-  const alertBg = () => themeMode === 'dark' ? '#121212' : '#eee8d5'
+  const alertBg = () => themeMode === 'dark' ? '#121212' : '#fdf6e3'
   const alertText = () => themeMode === 'dark' ? '#fff' : '#657b83'
 
   return (
     <>
       {location.pathname === '/favorite' ? (
-        <Alert sx={{ marginBlock: '1rem', backgroundColor: `${alertBg()}`, color: `${alertText()}` }} severity="info">
+        <Alert sx={{ backgroundColor: `${alertBg()}`, color: `${alertText()}` }} severity="info">
           Пусто, самое время добавить что-нибудь в избранное
         </Alert>
       ) : (
-        <Alert sx={{ marginBlock: '1rem', backgroundColor: `${alertBg()}`, color: `${alertText()}` }} severity="info">
+        <Alert sx={{ backgroundColor: `${alertBg()}`, color: `${alertText()}` }} severity="info">
           Время создать заметку
         </Alert>
       )}

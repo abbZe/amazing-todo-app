@@ -8,7 +8,7 @@ import { useLocation } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 
 export const Search = () => {
-  const { inputSearchValue, isSearchShows, tasks } = useSelector(selectTasks)
+  const { inputSearchValue, isSearchShows, tasks, themeMode } = useSelector(selectTasks)
   const dispatch = useDispatch()
   const { pathname } = useLocation()
 
@@ -23,7 +23,7 @@ export const Search = () => {
   return (
     <AnimatePresence>
       {isSearchShows && pathname === '/' && (
-        <motion.div animate={{ y: '-60px' }}>
+        <motion.div animate={{ y: '-60px' }} exit={{ y: 0 }}>
           <TextField
             inputRef={inputRef}
             sx={{
@@ -33,6 +33,7 @@ export const Search = () => {
               top: '0',
               left: '0',
               right: '0',
+              backgroundColor: `${themeMode === 'light' ? '#fdf6e3' : '#121212'}`
             }}
             type="search"
             label={inputSearchValue ? null : 'ищем...'}

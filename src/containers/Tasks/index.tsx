@@ -11,10 +11,10 @@ import {
   updateSearchTagValue,
 } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
-import React, { useEffect } from 'react'
+import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
-import { TasksList } from '../../components'
-import { List, Paper, Typography } from '@mui/material'
+import { AnimatedLogo, TasksList } from '../../components'
+import { List, Typography } from '@mui/material'
 import { v4 } from 'uuid'
 import { useLocation } from 'react-router-dom'
 
@@ -69,23 +69,30 @@ export const Tasks: React.FC = () => {
 
     tasks.map(task => (task.isFavorite ? favoriteTasks.push(task) : null))
 
-    return favoriteTasks && location.pathname === '/favorite'
-      ? favoriteTasks
-      : inputSearchValue
-        ? searchResults
-        : searchTagResults.length > 0
+    return (
+      searchTagResults.length > 0 && location.pathname === '/favorite'
+        ? searchTagResults
+        : searchTagResults.length > 0 && location.pathname === '/'
           ? searchTagResults
-          : tasks
+          : favoriteTasks && location.pathname === '/favorite'
+            ? favoriteTasks
+            : inputSearchValue
+              ? searchResults
+              : tasks
+    )
   }
+
+
 
   return (
     <>
+
       <Typography
-        sx={{ textAlign: 'center', position: 'sticky', top: '0', zIndex: '999', backgroundColor: 'inherit', p: '0.8rem' }}
+        sx={{ textAlign: 'center', position: 'sticky', top: '0', zIndex: '999', backgroundColor: 'inherit' }}
         variant="h4"
         component="h2"
       >
-        Заметки
+        <AnimatedLogo />
         {searchTagValue ? (
           <Typography color="secondary" variant="h5" component='p'>
             с тегом {searchTagValue}
@@ -96,10 +103,11 @@ export const Tasks: React.FC = () => {
           </Typography>
         ) : null}
       </Typography>
+
       <DragDropContext onDragEnd={onDragEndHandler}>
         <Droppable droppableId="tasksUl">
           {provided => (
-            <List id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
+            <List sx={{ p: 0 }} id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
               <TasksList
                 tasks={whichTasksWillDisplay()}
                 removeTaskHandler={removeTaskHandler}

@@ -6,7 +6,6 @@ import MainLayout from './layouts/MainLayout.tsx'
 import { Favorite, Home, NotFound, TaskPage } from './pages'
 import { selectTasks } from './redux/tasks/selectors.ts'
 import { useSelector } from 'react-redux'
-import './App.css'
 
 const App: React.FC = () => {
   const { themeMode } = useSelector(selectTasks)

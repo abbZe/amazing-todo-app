@@ -49,7 +49,7 @@ export const TaskPage: React.FC = () => {
         <Stack>
           {isHide ? null : (
             <FormGroup sx={{ marginBlock: '2rem' }}>
-              <Typography component="h2" variant="h4">
+              <Typography component="h2" variant="h4" sx={{ marginBlock: '1rem' }}>
                 Отредактировать заметку
               </Typography>
               <FormControl component="form" onSubmit={submitEditTaskHandler} sx={{ gap: 2, width: '100%' }}>
