@@ -11,7 +11,7 @@ import {
   updateSearchTagValue,
 } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
 import { List, Paper, Typography } from '@mui/material'
@@ -87,11 +87,11 @@ export const Tasks: React.FC = () => {
       >
         Заметки
         {searchTagValue ? (
-          <Typography color="secondary" variant="h5">
+          <Typography color="secondary" variant="h5" component='p'>
             с тегом {searchTagValue}
           </Typography>
         ) : inputSearchValue ? (
-          <Typography color="secondary" variant="h5">
+          <Typography color="secondary" variant="h5" component='p'>
             включающие в себя {inputSearchValue}
           </Typography>
         ) : null}

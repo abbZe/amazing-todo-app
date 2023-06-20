@@ -5,23 +5,27 @@ import { updateSearchInputValue } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors'
 import { AnimatePresence, motion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
+import { useEffect, useRef } from 'react'
 
 export const Search = () => {
-  const { inputSearchValue, isSearchShows } = useSelector(selectTasks)
+  const { inputSearchValue, isSearchShows, tasks } = useSelector(selectTasks)
   const dispatch = useDispatch()
   const { pathname } = useLocation()
 
-  const searchInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchInputValue = event.target.value
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
-    dispatch(updateSearchInputValue(searchInputValue))
+  const searchInputHandler = () => {
+    dispatch(updateSearchInputValue(inputRef?.current?.value))
   }
+
+  useEffect(() => { inputRef.current ? searchInputHandler() : null }, [tasks])
 
   return (
     <AnimatePresence>
       {isSearchShows && pathname === '/' && (
         <motion.div animate={{ y: '-60px' }}>
           <TextField
+            inputRef={inputRef}
             sx={{
               width: '100%',
               position: 'sticky',
