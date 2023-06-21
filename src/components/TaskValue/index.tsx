@@ -2,13 +2,14 @@ import { Alert, Box, Typography } from '@mui/material'
 import { TaskBody } from '..'
 import { TTasksObj } from '../../redux/tasks'
 import { v4 } from 'uuid'
+import { memo } from 'react'
 
 type TaskValueProps = {
   id: string
   tasks: Array<TTasksObj>
 }
 
-export const TaskValue: React.FC<TaskValueProps> = ({ id, tasks }) => {
+export const TaskValue: React.FC<TaskValueProps> = memo(({ id, tasks }) => {
   return (
     <>
       {tasks.map((task: TTasksObj) =>
@@ -29,4 +30,4 @@ export const TaskValue: React.FC<TaskValueProps> = ({ id, tasks }) => {
       )}
     </>
   )
-}
+})

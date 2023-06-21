@@ -1,12 +1,13 @@
 import { Alert } from '@mui/material'
 import React from 'react'
 import { TasksPlaceholderCanvas } from '..'
+import { memo } from 'react'
 
 type TasksPlaceholderProps = {
   themeMode: 'light' | 'dark'
 }
 
-export const TasksPlaceholder: React.FC<TasksPlaceholderProps> = ({ themeMode }) => {
+export const TasksPlaceholder: React.FC<TasksPlaceholderProps> = memo(({ themeMode }) => {
   const alertBg = () => themeMode === 'dark' ? '#121212' : '#fdf6e3'
   const alertText = () => themeMode === 'dark' ? '#fff' : '#657b83'
 
@@ -24,4 +25,4 @@ export const TasksPlaceholder: React.FC<TasksPlaceholderProps> = ({ themeMode })
       <TasksPlaceholderCanvas themeMode={themeMode} />
     </>
   )
-}
+})

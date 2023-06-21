@@ -1,13 +1,13 @@
 import { useDispatch } from 'react-redux'
 import { Priority, selectPriority } from '../../redux/tasks'
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material'
-import { useState } from 'react'
+import { memo, useState } from 'react'
 
 type TaskPrioritySelectorProps = {
   taskId: string
 }
 
-export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = ({ taskId }) => {
+export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = memo(({ taskId }) => {
   const dispatch = useDispatch()
   const [priority, setPriority] = useState<string>('')
 
@@ -36,4 +36,4 @@ export const TaskPrioritySelector: React.FC<TaskPrioritySelectorProps> = ({ task
       </Select>
     </FormControl>
   )
-}
+})

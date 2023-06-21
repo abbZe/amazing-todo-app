@@ -1,12 +1,13 @@
 import { FormControl, IconButton, InputAdornment, TextField } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import { memo } from 'react'
 
 type AddTagFormProps = {
   taskId: string
   submitAddTagHandler: (event: React.FormEvent<HTMLFormElement>, taskId: string) => void
 }
 
-export const AddTagForm: React.FC<AddTagFormProps> = ({ submitAddTagHandler, taskId }) => (
+export const AddTagForm: React.FC<AddTagFormProps> = memo(({ submitAddTagHandler, taskId }) => (
   <FormControl
     component="form"
     onSubmit={event => submitAddTagHandler(event, taskId)}
@@ -28,4 +29,4 @@ export const AddTagForm: React.FC<AddTagFormProps> = ({ submitAddTagHandler, tas
       }}
     />
   </FormControl>
-)
+))

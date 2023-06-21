@@ -1,12 +1,13 @@
 import { Box } from '@mui/material'
 import { MeshDistortMaterial, OrbitControls, Sphere } from '@react-three/drei'
 import { Canvas } from '@react-three/fiber'
+import { memo } from 'react'
 
 type TasksPlaceholderCanvasProps = {
   themeMode: string
 }
 
-export const TasksPlaceholderCanvas: React.FC<TasksPlaceholderCanvasProps> = ({ themeMode }) => {
+export const TasksPlaceholderCanvas: React.FC<TasksPlaceholderCanvasProps> = memo(({ themeMode }) => {
   return (
     <Box sx={{ position: 'relative', top: '10vh' }}>
       <Canvas
@@ -33,4 +34,4 @@ export const TasksPlaceholderCanvas: React.FC<TasksPlaceholderCanvasProps> = ({ 
       </Canvas>
     </Box>
   )
-}
+})

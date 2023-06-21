@@ -3,7 +3,6 @@ import {
   BottomNavigation,
   BottomNavigationAction,
   FormControlLabel,
-  Modal,
   Paper,
   Switch,
   Tooltip,
@@ -19,43 +18,37 @@ import { useDispatch } from 'react-redux'
 import { useSelector } from 'react-redux'
 import { selectTasks } from '../../redux/tasks/selectors'
 import AddIcon from '@mui/icons-material/Add'
-import { AddTaskForm, Search } from '..'
+import { Search } from '..'
 
 export const BottomNav = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
   const [value, setValue] = useState<number>(0)
-  const { isSearchShows, isAddNoteShows, tasks } = useSelector(selectTasks)
+  const { isSearchShows, tasks } = useSelector(selectTasks)
 
   const changePageHandler = (_event: any, newValue: number) => {
     setValue(newValue)
   }
+
   const favPageHandler = () => {
     navigate('/favorite')
   }
+
   const themeModeHandler = () => {
     dispatch(updateThemeMode())
-    document.body.style.transition = "all 0.4s ease-out"
+    document.body.style.transition = 'all 0.4s ease-out'
   }
+
   const clickAddNoteHandler = () => {
     navigate('/')
 
     dispatch(toggleAddNote(true))
   }
 
+
   return (
     <>
-      <Modal
-        open={isAddNoteShows}
-        onClose={() => dispatch(toggleAddNote(false))}
-        sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
-      >
-        <Paper elevation={1} sx={{ p: '1rem', width: '95vw' }}>
-          <AddTaskForm />
-        </Paper>
-      </Modal>
-
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999 }}>
         <Search />
         <BottomNavigation

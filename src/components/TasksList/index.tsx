@@ -1,5 +1,5 @@
 import { TTagsObj, TTasksObj } from '../../redux/tasks'
-import React from 'react'
+import React, { memo } from 'react'
 import { Draggable } from 'react-beautiful-dnd'
 import { AddTagForm, TagsList, TaskPrioritySelector, TasksPlaceholder } from '..'
 import { Link as RouterLink } from 'react-router-dom'
@@ -45,7 +45,7 @@ const StyledCard = styled(Card)`
   `}
 `
 
-export const TasksList: React.FC<TasksListProps> = ({
+export const TasksList: React.FC<TasksListProps> = memo(({
   tasks,
   removeTaskHandler,
   submitAddTagHandler,
@@ -54,6 +54,7 @@ export const TasksList: React.FC<TasksListProps> = ({
   clickDeleteTagBtnHandler,
   themeMode,
 }) => {
+
   if (tasks.length > 0) {
     return (
       <Box sx={{ paddingBottom: '4rem' }}>
@@ -117,4 +118,4 @@ export const TasksList: React.FC<TasksListProps> = ({
   } else {
     return <TasksPlaceholder themeMode={themeMode} />
   }
-}
+})

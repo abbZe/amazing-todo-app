@@ -11,14 +11,15 @@ import {
   updateSearchTagValue,
 } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
-import React from 'react'
+import React, { memo, useCallback, useMemo } from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
 import { List } from '@mui/material'
 import { v4 } from 'uuid'
 import { useLocation } from 'react-router-dom'
+import { AddTaskForm } from '../index.ts'
 
-export const Tasks: React.FC = () => {
+export const Tasks: React.FC = memo(() => {
   const dispatch = useDispatch()
   const location = useLocation()
   const { tasks, inputSearchValue, searchResults, searchTagResults, themeMode } = useSelector(selectTasks)
@@ -33,9 +34,9 @@ export const Tasks: React.FC = () => {
     }
   }
 
-  const removeTaskHandler = (taskId: string) => dispatch(removeTask(taskId))
+  const removeTaskHandler = useCallback((taskId: string) => dispatch(removeTask(taskId)), [])
 
-  const submitAddTagHandler = (event: React.FormEvent<HTMLFormElement>, taskId: string) => {
+  const submitAddTagHandler = useCallback((event: React.FormEvent<HTMLFormElement>, taskId: string) => {
     event.preventDefault()
 
     const { value } = event.target[0] as HTMLInputElement
@@ -49,20 +50,20 @@ export const Tasks: React.FC = () => {
     if (event.target) {
       dispatch(addTagToTask({ tagObj, taskId }))
     }
-  }
+  }, [])
 
-  const addToFavHandler = (taskId: string) => {
+  const addToFavHandler = useCallback((taskId: string) => {
     dispatch(toggleFav(taskId))
-  }
+  }, [])
 
-  const clickTagHandler = (tag: TTagsObj) => {
+  const clickTagHandler = useCallback((tag: TTagsObj) => {
     dispatch(updateSearchTagResults(tag.tagValue))
     dispatch(updateSearchTagValue(tag.tagValue))
-  }
+  }, [])
 
-  const clickDeleteTagBtnHandler = (taskId: string, tagId: string) => {
+  const clickDeleteTagBtnHandler = useCallback((taskId: string, tagId: string) => {
     dispatch(removeTag({ taskId, tagId }))
-  }
+  }, [])
 
   const whichTasksWillDisplay = () => {
     const favoriteTasks: Array<TTasksObj> = []
@@ -82,11 +83,9 @@ export const Tasks: React.FC = () => {
     )
   }
 
-
-
   return (
     <>
-
+      <AddTaskForm />
 
       <DragDropContext onDragEnd={onDragEndHandler}>
         <Droppable droppableId="tasksUl">
@@ -108,4 +107,4 @@ export const Tasks: React.FC = () => {
       </DragDropContext>
     </>
   )
-}
+})

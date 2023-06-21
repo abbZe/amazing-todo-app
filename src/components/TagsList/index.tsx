@@ -1,7 +1,7 @@
 import { v4 } from 'uuid'
 import { TTagsObj, TTasksObj } from '../../redux/tasks'
 import { Chip, Stack } from '@mui/material'
-import React from 'react'
+import React, { memo } from 'react'
 
 type TagsListProps = {
   task: TTasksObj
@@ -10,7 +10,7 @@ type TagsListProps = {
   clickDeleteTagBtnHandler: (taskId: string, tagId: string) => void
 }
 
-export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler, clickDeleteTagBtnHandler, taskId }) => (
+export const TagsList: React.FC<TagsListProps> = memo(({ task, clickTagHandler, clickDeleteTagBtnHandler, taskId }) => (
   <>
     <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
       {task.tags.map((tag: TTagsObj) => (
@@ -25,4 +25,4 @@ export const TagsList: React.FC<TagsListProps> = ({ task, clickTagHandler, click
       ))}
     </Stack>
   </>
-)
+))

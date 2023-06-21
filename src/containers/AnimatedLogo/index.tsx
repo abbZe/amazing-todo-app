@@ -1,8 +1,9 @@
 import { motion } from 'framer-motion'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import { useSelector } from 'react-redux'
+import { memo } from 'react'
 
-export const AnimatedLogo = () => {
+export const AnimatedLogo: React.FC = () => {
   const { themeMode } = useSelector(selectTasks)
 
   const pathAnimation = {
@@ -32,7 +33,7 @@ export const AnimatedLogo = () => {
         fillRule="evenodd"
         fontSize="9pt"
         stroke={themeMode === 'dark' ? '#bb86fc' : '#2aa198'}
-        strokeWidth={themeMode === 'dark' ? '2' : '3'}
+        strokeWidth="2"
         fill="none"
       >
         <motion.path
