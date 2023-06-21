@@ -1,6 +1,7 @@
 import { v4 } from 'uuid'
 import { TTagsObj, TTasksObj } from '../../redux/tasks'
 import { Chip, Stack } from '@mui/material'
+import React from 'react'
 
 type TagsListProps = {
   task: TTasksObj

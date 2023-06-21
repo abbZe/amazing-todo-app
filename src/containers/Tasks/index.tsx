@@ -14,15 +14,14 @@ import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
-import { List, Typography } from '@mui/material'
+import { List } from '@mui/material'
 import { v4 } from 'uuid'
 import { useLocation } from 'react-router-dom'
-import { AnimatedLogo } from '../index.ts'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { tasks, inputSearchValue, searchResults, searchTagResults, searchTagValue, themeMode } = useSelector(selectTasks)
+  const { tasks, inputSearchValue, searchResults, searchTagResults, themeMode } = useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -88,22 +87,6 @@ export const Tasks: React.FC = () => {
   return (
     <>
 
-      <Typography
-        sx={{ textAlign: 'center', position: 'sticky', top: '0', zIndex: '999', backgroundColor: 'inherit' }}
-        variant="h4"
-        component="h2"
-      >
-        <AnimatedLogo />
-        {searchTagValue ? (
-          <Typography color="secondary" variant="h5" component='p'>
-            с тегом {searchTagValue}
-          </Typography>
-        ) : inputSearchValue ? (
-          <Typography color="secondary" variant="h5" component='p'>
-            включающие в себя {inputSearchValue}
-          </Typography>
-        ) : null}
-      </Typography>
 
       <DragDropContext onDragEnd={onDragEndHandler}>
         <Droppable droppableId="tasksUl">
