@@ -47,7 +47,6 @@ export const BottomNav: React.FC = () => {
     dispatch(toggleAddNote(true))
   }
 
-
   return (
     <>
       <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 999 }}>

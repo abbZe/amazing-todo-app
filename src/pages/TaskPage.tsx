@@ -40,11 +40,16 @@ export const TaskPage: React.FC = () => {
         <Stack sx={{ padding: '1rem', height: '100vh', width: { xs: '100vw', md: '80vw', xl: '50vw' } }}>
           <Stack spacing={1}>
             <TaskValue id={id} tasks={tasks} themeMode={themeMode} />
-            <Button variant="contained" size='large' color={isHide ? 'primary' : 'secondary'} onClick={() => setIsHide(!isHide)}>
+            <Button
+              variant="contained"
+              size="large"
+              color={isHide ? 'primary' : 'secondary'}
+              onClick={() => setIsHide(!isHide)}
+            >
               Редактировать
             </Button>
-            <Link component={RouterLink} to="/" >
-              <Button variant="outlined" size='large' sx={{ width: "100%" }}>
+            <Link component={RouterLink} to="/">
+              <Button variant="outlined" size="large" sx={{ width: '100%' }}>
                 Назад
               </Button>
             </Link>
@@ -64,7 +69,7 @@ export const TaskPage: React.FC = () => {
                     onReady={() => editorDefaultValueHandler(id)}
                   />
 
-                  <Button type="submit" size='large' variant="outlined">
+                  <Button type="submit" size="large" variant="outlined">
                     Применить изменения
                   </Button>
                 </FormControl>

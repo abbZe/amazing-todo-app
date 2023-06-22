@@ -25,7 +25,7 @@ export const AddTagForm: React.FC<AddTagFormProps> = memo(({ submitAddTagHandler
   return (
     <FormControl
       component="form"
-      onSubmit={(event) => submitAndClearInputHandler(event, taskId)}
+      onSubmit={event => submitAndClearInputHandler(event, taskId)}
       sx={{ width: '100%', mb: '0.5rem' }}
     >
       <TextField
@@ -46,6 +46,5 @@ export const AddTagForm: React.FC<AddTagFormProps> = memo(({ submitAddTagHandler
         }}
       />
     </FormControl>
-
   )
 })

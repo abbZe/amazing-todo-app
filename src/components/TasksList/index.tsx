@@ -59,11 +59,16 @@ export const TasksList: React.FC<TasksListProps> = memo(
   }) => {
     if (tasks.length > 0) {
       return (
-        <Box sx={{ paddingBottom: '4rem' }}>
+        <Box component="div" sx={{ paddingBottom: '4rem' }}>
           {tasks.map((task: TTasksObj, index: number) => (
             <Draggable key={task.id} draggableId={task.id} index={index}>
               {provided => (
-                <ListItem sx={{ justifyContent: 'center', alignItems: 'center' }} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                <ListItem
+                  sx={{ justifyContent: 'center', alignItems: 'center' }}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  ref={provided.innerRef}
+                >
                   <StyledCard
                     sx={{
                       backgroundColor: `${themeMode === 'dark' ? '#1c1c1c' : '#eee8d5'}`,

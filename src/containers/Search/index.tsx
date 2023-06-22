@@ -18,7 +18,9 @@ export const Search: React.FC = () => {
     dispatch(updateSearchInputValue(inputRef?.current?.value))
   }
 
-  useEffect(() => { inputRef.current ? searchInputHandler() : null }, [tasks])
+  useEffect(() => {
+    inputRef.current ? searchInputHandler() : null
+  }, [tasks])
 
   return (
     <AnimatePresence>
@@ -33,7 +35,7 @@ export const Search: React.FC = () => {
               top: '0',
               left: '0',
               right: '0',
-              backgroundColor: `${themeMode === 'light' ? '#fdf6e3' : '#121212'}`
+              backgroundColor: `${themeMode === 'light' ? '#fdf6e3' : '#121212'}`,
             }}
             type="search"
             label={inputSearchValue ? null : 'ищем...'}

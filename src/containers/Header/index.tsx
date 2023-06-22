@@ -1,7 +1,7 @@
-import { Typography } from "@mui/material"
-import { selectTasks } from "../../redux/tasks/selectors"
-import { AnimatedLogo } from ".."
-import { useSelector } from "react-redux"
+import { Typography } from '@mui/material'
+import { selectTasks } from '../../redux/tasks/selectors'
+import { AnimatedLogo } from '..'
+import { useSelector } from 'react-redux'
 
 export const Header: React.FC = () => {
   const { searchTagValue, inputSearchValue } = useSelector(selectTasks)
@@ -12,15 +12,14 @@ export const Header: React.FC = () => {
       variant="h4"
       component="h2"
     >
-
       <AnimatedLogo />
 
       {searchTagValue ? (
-        <Typography color="secondary" variant="h5" component='p'>
+        <Typography color="secondary" variant="h5" component="p">
           с тегом {searchTagValue}
         </Typography>
       ) : inputSearchValue ? (
-        <Typography color="secondary" variant="h5" component='p'>
+        <Typography color="secondary" variant="h5" component="p">
           включающие в себя {inputSearchValue}
         </Typography>
       ) : null}

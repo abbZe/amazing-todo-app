@@ -11,38 +11,37 @@ import { useSelector } from 'react-redux'
 const App: React.FC = () => {
   const { themeMode } = useSelector(selectTasks)
 
-  const theme =
-    createTheme({
-      palette: {
-        mode: themeMode,
-        primary: {
-          main: themeMode === 'light' ? '#2aa198' : '#bb86fc',
-          light: '#ee69af',
-          dark: themeMode === 'light' ? '#2aa171' : '#bb86fc',
-          contrastText: '#fff',
-        },
-        secondary: {
-          main: '#03dac6',
-          light: '#78ffd6',
-          dark: '#00a896',
-          contrastText: '#000',
-        },
-        background: {
-          paper: themeMode === 'light' ? '#fdf6e3' : '#121212',
-          default: themeMode === 'light' ? '#fdf6e3' : '#1c1c1c',
-        },
-        text: {
-          primary: themeMode === 'light' ? '#657b83' : '#fff',
-          secondary: themeMode === 'light' ? '#91a1a1' : '#a5a5a5',
-        },
-        info: {
-          main: themeMode === 'light' ? '#03dac6' : '#bb86fc',
-        }
+  const theme = createTheme({
+    palette: {
+      mode: themeMode,
+      primary: {
+        main: themeMode === 'light' ? '#2aa198' : '#bb86fc',
+        light: '#ee69af',
+        dark: themeMode === 'light' ? '#2aa171' : '#bb86fc',
+        contrastText: '#fff',
       },
-      typography: {
-        fontFamily: 'Roboto',
+      secondary: {
+        main: '#03dac6',
+        light: '#78ffd6',
+        dark: '#00a896',
+        contrastText: '#000',
       },
-    })
+      background: {
+        paper: themeMode === 'light' ? '#fdf6e3' : '#121212',
+        default: themeMode === 'light' ? '#fdf6e3' : '#1c1c1c',
+      },
+      text: {
+        primary: themeMode === 'light' ? '#657b83' : '#fff',
+        secondary: themeMode === 'light' ? '#91a1a1' : '#a5a5a5',
+      },
+      info: {
+        main: themeMode === 'light' ? '#03dac6' : '#bb86fc',
+      },
+    },
+    typography: {
+      fontFamily: 'Roboto',
+    },
+  })
 
   return (
     <ThemeProvider theme={theme}>

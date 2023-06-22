@@ -23,7 +23,7 @@ export const AnimatedLogo: React.FC = () => {
       <svg
         style={{ padding: '1rem', paddingTop: '1.5rem', maxHeight: '11vh' }}
         width="100vw"
-        height='20vw'
+        height="20vw"
         viewBox="0 0 970.29 73"
         xmlns="http://www.w3.org/2000/svg"
       >

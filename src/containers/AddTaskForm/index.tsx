@@ -60,10 +60,13 @@ export const AddTaskForm: React.FC = () => {
         alignItems: 'center',
       }}
     >
-      <Paper elevation={1} sx={{
-        p: '1rem',
-        width: { xs: '90vw', md: '80vw', xl: '50vw' },
-      }}>
+      <Paper
+        elevation={1}
+        sx={{
+          p: '1rem',
+          width: { xs: '90vw', md: '80vw', xl: '50vw' },
+        }}
+      >
         <FormGroup>
           <Typography sx={{ marginBlock: '1rem' }} component="h1" variant="h4">
             Создать заметку

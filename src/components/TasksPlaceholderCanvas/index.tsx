@@ -9,7 +9,7 @@ type TasksPlaceholderCanvasProps = {
 
 export const TasksPlaceholderCanvas: React.FC<TasksPlaceholderCanvasProps> = memo(({ themeMode }) => {
   return (
-    <Box sx={{ position: 'relative', top: '10vh' }}>
+    <Box component="div" sx={{ position: 'relative', top: '10vh' }}>
       <Canvas
         style={{
           backgroundColor: 'transparent',
