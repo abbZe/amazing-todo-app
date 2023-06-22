@@ -1,3 +1,3 @@
 import { Tasks } from '../containers'
 
-export const Favorite = () => <Tasks />
+export const Favorite: React.FC = () => <Tasks />

@@ -28,6 +28,7 @@ type TasksListProps = {
   addToFavHandler: (taskId: string) => void
   clickTagHandler: (tag: TTagsObj) => void
   clickDeleteTagBtnHandler: (taskId: string, tagId: string) => void
+  clickPlaceholderHandler: () => void
   themeMode: 'light' | 'dark'
 }
 
@@ -45,77 +46,79 @@ const StyledCard = styled(Card)`
   `}
 `
 
-export const TasksList: React.FC<TasksListProps> = memo(({
-  tasks,
-  removeTaskHandler,
-  submitAddTagHandler,
-  addToFavHandler,
-  clickTagHandler,
-  clickDeleteTagBtnHandler,
-  themeMode,
-}) => {
+export const TasksList: React.FC<TasksListProps> = memo(
+  ({
+    tasks,
+    removeTaskHandler,
+    submitAddTagHandler,
+    addToFavHandler,
+    clickTagHandler,
+    clickDeleteTagBtnHandler,
+    clickPlaceholderHandler,
+    themeMode,
+  }) => {
+    if (tasks.length > 0) {
+      return (
+        <Box sx={{ paddingBottom: '4rem' }}>
+          {tasks.map((task: TTasksObj, index: number) => (
+            <Draggable key={task.id} draggableId={task.id} index={index}>
+              {provided => (
+                <ListItem sx={{ justifyContent: 'center', alignItems: 'center' }} {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
+                  <StyledCard
+                    sx={{
+                      backgroundColor: `${themeMode === 'dark' ? '#1c1c1c' : '#eee8d5'}`,
+                      width: { xs: '100vw', md: '80vw', xl: '50vw' },
+                      p: '1rem',
+                      borderRadius: '1rem',
+                    }}
+                  >
+                    <CardHeader
+                      title={
+                        <Link component={RouterLink} to={`/task/${task.id}`} underline="none" variant="h5">
+                          <Typography variant="h4" component="h4" sx={{ textAlign: 'center' }}>
+                            {index + 1}. {task.taskTitleValue}
+                          </Typography>
+                        </Link>
+                      }
+                      subheader={<Typography sx={{ textAlign: 'center' }}>{task.dateOfCreate}</Typography>}
+                    />
+                    <CardActions>
+                      <Tooltip title="Добавить в избранное">
+                        <Checkbox
+                          icon={<BookmarkBorderIcon />}
+                          checkedIcon={<BookmarkIcon />}
+                          checked={task.isFavorite}
+                          onChange={() => addToFavHandler(task.id)}
+                        />
+                      </Tooltip>
 
-  if (tasks.length > 0) {
-    return (
-      <Box sx={{ paddingBottom: '4rem' }}>
-        {tasks.map((task: TTasksObj, index: number) => (
-          <Draggable key={task.id} draggableId={task.id} index={index}>
-            {provided => (
-              <ListItem {...provided.draggableProps} {...provided.dragHandleProps} ref={provided.innerRef}>
-                <StyledCard
-                  sx={{
-                    backgroundColor: `${themeMode === 'dark' ? '#1c1c1c' : '#eee8d5'}`,
-                    width: '100vw',
-                    p: '1rem',
-                    borderRadius: '1rem',
-                  }}
-                >
-                  <CardHeader
-                    title={
-                      <Link component={RouterLink} to={`/task/${task.id}`} underline="none" variant="h5">
-                        <Typography variant="h4" component="h4" sx={{ textAlign: 'center' }}>
-                          {index + 1}. {task.taskTitleValue}
-                        </Typography>
-                      </Link>
-                    }
-                    subheader={<Typography sx={{ textAlign: 'center' }}>{task.dateOfCreate}</Typography>}
-                  />
-                  <CardActions>
-                    <Tooltip title="Добавить в избранное">
-                      <Checkbox
-                        icon={<BookmarkBorderIcon />}
-                        checkedIcon={<BookmarkIcon />}
-                        checked={task.isFavorite}
-                        onChange={() => addToFavHandler(task.id)}
-                      />
-                    </Tooltip>
+                      <TaskPrioritySelector taskId={task.id} />
 
-                    <TaskPrioritySelector taskId={task.id} />
+                      <Tooltip title="Удалить заметку">
+                        <IconButton onClick={() => removeTaskHandler(task.id)}>
+                          <DeleteIcon />
+                        </IconButton>
+                      </Tooltip>
+                    </CardActions>
 
-                    <Tooltip title="Удалить заметку">
-                      <IconButton onClick={() => removeTaskHandler(task.id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                    </Tooltip>
-                  </CardActions>
+                    <AddTagForm submitAddTagHandler={submitAddTagHandler} taskId={task.id} />
 
-                  <AddTagForm submitAddTagHandler={submitAddTagHandler} taskId={task.id} />
-
-                  <TagsList
-                    taskId={task.id}
-                    task={task}
-                    clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
-                    clickTagHandler={clickTagHandler}
-                  />
-                  {task.priority ? <Alert severity="warning">{task.priority} приоритет</Alert> : null}
-                </StyledCard>
-              </ListItem>
-            )}
-          </Draggable>
-        ))}
-      </Box>
-    )
-  } else {
-    return <TasksPlaceholder themeMode={themeMode} />
+                    <TagsList
+                      taskId={task.id}
+                      task={task}
+                      clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
+                      clickTagHandler={clickTagHandler}
+                    />
+                    {task.priority ? <Alert severity="warning">{task.priority} приоритет</Alert> : null}
+                  </StyledCard>
+                </ListItem>
+              )}
+            </Draggable>
+          ))}
+        </Box>
+      )
+    } else {
+      return <TasksPlaceholder clickPlaceholderHandler={clickPlaceholderHandler} themeMode={themeMode} />
+    }
   }
-})
+)

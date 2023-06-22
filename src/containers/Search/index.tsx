@@ -7,10 +7,10 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { useLocation } from 'react-router-dom'
 import { useEffect, useRef } from 'react'
 
-export const Search = () => {
-  const { inputSearchValue, isSearchShows, tasks, themeMode } = useSelector(selectTasks)
-  const dispatch = useDispatch()
+export const Search: React.FC = () => {
   const { pathname } = useLocation()
+  const dispatch = useDispatch()
+  const { inputSearchValue, isSearchShows, tasks, themeMode } = useSelector(selectTasks)
 
   const inputRef = useRef<HTMLInputElement | null>(null)
 

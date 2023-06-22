@@ -14,7 +14,7 @@ import {
 } from '../../redux/tasks'
 import React from 'react'
 
-export const AddTaskForm = React.memo(() => {
+export const AddTaskForm: React.FC = () => {
   const { inputTaskTitleValue, inputTaskBodyValue, isAddNoteShows } = useSelector(selectTasks)
   const dispatch = useDispatch()
 
@@ -53,9 +53,16 @@ export const AddTaskForm = React.memo(() => {
     <Modal
       open={isAddNoteShows}
       onClose={() => dispatch(toggleAddNote(false))}
-      sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}
+      sx={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
     >
-      <Paper elevation={1} sx={{ p: '1rem', width: '95vw' }}>
+      <Paper elevation={1} sx={{
+        p: '1rem',
+        width: { xs: '90vw', md: '80vw', xl: '50vw' },
+      }}>
         <FormGroup>
           <Typography sx={{ marginBlock: '1rem' }} component="h1" variant="h4">
             Создать заметку
@@ -80,4 +87,4 @@ export const AddTaskForm = React.memo(() => {
       </Paper>
     </Modal>
   )
-})
+}

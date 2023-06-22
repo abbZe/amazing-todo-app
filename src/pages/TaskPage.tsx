@@ -20,6 +20,7 @@ export const TaskPage: React.FC = () => {
 
     dispatch(updateInputTaskBodyValue(data))
   }
+
   const submitEditTaskHandler = (event: React.ChangeEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -27,6 +28,7 @@ export const TaskPage: React.FC = () => {
     dispatch(updateInputTaskBodyValue(''))
     setIsHide(!isHide)
   }
+
   const editorDefaultValueHandler = (id: string) => {
     dispatch(setEditorValueSimiliarToTaskBody(id))
   }

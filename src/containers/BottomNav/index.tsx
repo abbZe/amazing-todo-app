@@ -11,7 +11,7 @@ import {
 import HomeIcon from '@mui/icons-material/Home'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import SearchIcon from '@mui/icons-material/Search'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { toggleAddNote, toggleSearch, updateThemeMode } from '../../redux/tasks'
 import { useDispatch } from 'react-redux'
@@ -20,10 +20,11 @@ import { selectTasks } from '../../redux/tasks/selectors'
 import AddIcon from '@mui/icons-material/Add'
 import { Search } from '..'
 
-export const BottomNav = () => {
+export const BottomNav: React.FC = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const location = useLocation()
+
   const [value, setValue] = useState<number>(0)
   const { isSearchShows, tasks } = useSelector(selectTasks)
 

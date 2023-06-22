@@ -9,9 +9,10 @@ import {
   TTasksObj,
   TTagsObj,
   updateSearchTagValue,
+  toggleAddNote,
 } from '../../redux/tasks'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
-import React, { memo, useCallback, useMemo } from 'react'
+import React, { useCallback } from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
 import { List } from '@mui/material'
@@ -19,10 +20,10 @@ import { v4 } from 'uuid'
 import { useLocation } from 'react-router-dom'
 import { AddTaskForm } from '../index.ts'
 
-export const Tasks: React.FC = memo(() => {
+export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const { tasks, inputSearchValue, searchResults, searchTagResults, themeMode } = useSelector(selectTasks)
+  const { tasks, isAddNoteShows, inputSearchValue, searchResults, searchTagResults, themeMode } = useSelector(selectTasks)
 
   const onDragEndHandler: OnDragEndResponder = (result: DropResult) => {
     const items = Array.from(tasks)
@@ -65,6 +66,10 @@ export const Tasks: React.FC = memo(() => {
     dispatch(removeTag({ taskId, tagId }))
   }, [])
 
+  const clickPlaceholderHandler = useCallback(() => {
+    dispatch(toggleAddNote(!isAddNoteShows))
+  }, [])
+
   const whichTasksWillDisplay = () => {
     const favoriteTasks: Array<TTasksObj> = []
 
@@ -98,6 +103,7 @@ export const Tasks: React.FC = memo(() => {
                 submitAddTagHandler={submitAddTagHandler}
                 clickTagHandler={clickTagHandler}
                 clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
+                clickPlaceholderHandler={clickPlaceholderHandler}
                 themeMode={themeMode}
               />
               {provided.placeholder}
@@ -107,4 +113,4 @@ export const Tasks: React.FC = memo(() => {
       </DragDropContext>
     </>
   )
-})
+}

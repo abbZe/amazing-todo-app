@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import { selectTasks } from '../../redux/tasks/selectors.ts'
 import { useSelector } from 'react-redux'
-import { memo } from 'react'
 
 export const AnimatedLogo: React.FC = () => {
   const { themeMode } = useSelector(selectTasks)
@@ -13,8 +12,7 @@ export const AnimatedLogo: React.FC = () => {
     visible: {
       pathLength: 1,
       transition: {
-        duration: 4,
-        yoyo: Infinity,
+        duration: 15,
         ease: 'easeInOut',
       },
     },

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { createTheme, CssBaseline, Paper, ThemeProvider } from '@mui/material'
+import './App.css'
 
 import MainLayout from './layouts/MainLayout.tsx'
 import { Favorite, Home, NotFound, TaskPage } from './pages'
