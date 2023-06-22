@@ -12,7 +12,7 @@ import { Box, Button, FormControl, FormGroup, Link, Stack, Typography } from '@m
 export const TaskPage: React.FC = () => {
   const dispatch = useDispatch()
   const { id } = useParams()
-  const { tasks, inputTaskBodyValue } = useSelector(selectTasks)
+  const { tasks, inputTaskBodyValue, themeMode } = useSelector(selectTasks)
   const [isHide, setIsHide] = useState(true)
 
   const taskBodyInputHandler = (_: any, editor: CustomEditor) => {
@@ -37,7 +37,7 @@ export const TaskPage: React.FC = () => {
     return (
       <Box sx={{ p: '1rem', height: '100vh' }}>
         <Stack spacing={1}>
-          <TaskValue id={id} tasks={tasks} />
+          <TaskValue id={id} tasks={tasks} themeMode={themeMode} />
           <Button variant="contained" size='large' color={isHide ? 'primary' : 'secondary'} onClick={() => setIsHide(!isHide)}>
             Редактировать
           </Button>

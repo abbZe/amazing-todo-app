@@ -15,10 +15,11 @@ import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React, { useCallback } from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
-import { List } from '@mui/material'
+import { Drawer, List } from '@mui/material'
 import { v4 } from 'uuid'
 import { useLocation } from 'react-router-dom'
 import { AddTaskForm } from '../index.ts'
+import { AnimatePresence, motion } from 'framer-motion'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
@@ -96,16 +97,22 @@ export const Tasks: React.FC = () => {
         <Droppable droppableId="tasksUl">
           {provided => (
             <List sx={{ p: 0 }} id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
-              <TasksList
-                tasks={whichTasksWillDisplay()}
-                removeTaskHandler={removeTaskHandler}
-                addToFavHandler={addToFavHandler}
-                submitAddTagHandler={submitAddTagHandler}
-                clickTagHandler={clickTagHandler}
-                clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
-                clickPlaceholderHandler={clickPlaceholderHandler}
-                themeMode={themeMode}
-              />
+
+              <AnimatePresence>
+                <motion.div initial={{ y: '-1000px' }} animate={{ y: '0' }} exit={{ y: '-1000px' }} >
+                  <TasksList
+                    tasks={whichTasksWillDisplay()}
+                    removeTaskHandler={removeTaskHandler}
+                    addToFavHandler={addToFavHandler}
+                    submitAddTagHandler={submitAddTagHandler}
+                    clickTagHandler={clickTagHandler}
+                    clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
+                    clickPlaceholderHandler={clickPlaceholderHandler}
+                    themeMode={themeMode}
+                  />
+                </motion.div>
+              </AnimatePresence>
+
               {provided.placeholder}
             </List>
           )}

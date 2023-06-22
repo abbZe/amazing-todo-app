@@ -7,9 +7,13 @@ import { memo } from 'react'
 type TaskValueProps = {
   id: string
   tasks: Array<TTasksObj>
+  themeMode: string
 }
 
-export const TaskValue: React.FC<TaskValueProps> = memo(({ id, tasks }) => {
+export const TaskValue: React.FC<TaskValueProps> = memo(({ id, tasks, themeMode }) => {
+  const alertBg = () => themeMode === 'dark' ? '#121212' : '#fdf6e3'
+  const alertText = () => themeMode === 'dark' ? '#fff' : '#657b83'
+
   return (
     <>
       {tasks.map((task: TTasksObj) =>
@@ -23,7 +27,7 @@ export const TaskValue: React.FC<TaskValueProps> = memo(({ id, tasks }) => {
             {task.taskBodyValue ? (
               <TaskBody body={task.taskBodyValue} />
             ) : (
-              <Alert sx={{ marginBlock: '1rem' }} severity="info">Описания нет, самое время добавить</Alert>
+              <Alert sx={{ marginBlock: '1rem', backgroundColor: `${alertBg()}`, color: `${alertText()}` }} severity="info">Описания нет, самое время добавить</Alert>
             )}
           </Box>
         ) : null

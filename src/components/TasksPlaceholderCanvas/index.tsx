@@ -15,7 +15,7 @@ export const TasksPlaceholderCanvas: React.FC<TasksPlaceholderCanvasProps> = mem
           backgroundColor: 'transparent',
           position: 'absolute',
           width: '100vw',
-          height: '22rem',
+          height: '40vh',
           zIndex: '0',
         }}
       >
