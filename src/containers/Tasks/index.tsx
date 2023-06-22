@@ -15,11 +15,10 @@ import { selectTasks } from '../../redux/tasks/selectors.ts'
 import React, { useCallback } from 'react'
 import { DragDropContext, Droppable, OnDragEndResponder, DropResult } from 'react-beautiful-dnd'
 import { TasksList } from '../../components'
-import { Drawer, List } from '@mui/material'
+import { List } from '@mui/material'
 import { v4 } from 'uuid'
 import { useLocation } from 'react-router-dom'
 import { AddTaskForm } from '../index.ts'
-import { AnimatePresence, motion } from 'framer-motion'
 
 export const Tasks: React.FC = () => {
   const dispatch = useDispatch()
@@ -41,7 +40,11 @@ export const Tasks: React.FC = () => {
   const submitAddTagHandler = useCallback((event: React.FormEvent<HTMLFormElement>, taskId: string) => {
     event.preventDefault()
 
-    const { value } = event.target[0] as HTMLInputElement
+    const target = event.target as typeof event.target & {
+      0: HTMLInputElement
+    }
+    const { value } = target[0]
+
     const inputAddTagValue: string = value.trim().toLowerCase()
 
     const tagObj = {
@@ -98,20 +101,16 @@ export const Tasks: React.FC = () => {
           {provided => (
             <List sx={{ p: 0 }} id="tasksUl" className="tasksUl" {...provided.droppableProps} ref={provided.innerRef}>
 
-              <AnimatePresence>
-                <motion.div initial={{ y: '-1000px' }} animate={{ y: '0' }} exit={{ y: '-1000px' }} >
-                  <TasksList
-                    tasks={whichTasksWillDisplay()}
-                    removeTaskHandler={removeTaskHandler}
-                    addToFavHandler={addToFavHandler}
-                    submitAddTagHandler={submitAddTagHandler}
-                    clickTagHandler={clickTagHandler}
-                    clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
-                    clickPlaceholderHandler={clickPlaceholderHandler}
-                    themeMode={themeMode}
-                  />
-                </motion.div>
-              </AnimatePresence>
+              <TasksList
+                tasks={whichTasksWillDisplay()}
+                removeTaskHandler={removeTaskHandler}
+                addToFavHandler={addToFavHandler}
+                submitAddTagHandler={submitAddTagHandler}
+                clickTagHandler={clickTagHandler}
+                clickDeleteTagBtnHandler={clickDeleteTagBtnHandler}
+                clickPlaceholderHandler={clickPlaceholderHandler}
+                themeMode={themeMode}
+              />
 
               {provided.placeholder}
             </List>

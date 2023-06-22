@@ -4,6 +4,7 @@ import { Button, FormControl, FormGroup, Modal, Paper, TextField, Tooltip, Typog
 import { useDispatch, useSelector } from 'react-redux'
 import { selectTasks } from '../../redux/tasks/selectors'
 import { v4 } from 'uuid'
+//@ts-ignore
 import CustomEditor from 'ckeditor5-custom-build'
 import {
   TTasksObj,

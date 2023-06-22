@@ -5,6 +5,7 @@ import { TaskValue } from '../components'
 import { CKEditor } from '@ckeditor/ckeditor5-react'
 import { editTask, setEditorValueSimiliarToTaskBody, updateInputTaskBodyValue } from '../redux/tasks'
 import { useDispatch } from 'react-redux'
+//@ts-ignore
 import CustomEditor from 'ckeditor5-custom-build'
 import { useState } from 'react'
 import { Box, Button, FormControl, FormGroup, Link, Stack, Typography } from '@mui/material'
@@ -35,39 +36,41 @@ export const TaskPage: React.FC = () => {
 
   if (id) {
     return (
-      <Box sx={{ p: '1rem', height: '100vh' }}>
-        <Stack spacing={1}>
-          <TaskValue id={id} tasks={tasks} themeMode={themeMode} />
-          <Button variant="contained" size='large' color={isHide ? 'primary' : 'secondary'} onClick={() => setIsHide(!isHide)}>
-            Редактировать
-          </Button>
-          <Link component={RouterLink} to="/" >
-            <Button variant="outlined" size='large' sx={{ width: "100%" }}>
-              Назад
+      <Box component="div" sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+        <Stack sx={{ padding: '1rem', height: '100vh', width: { xs: '100vw', md: '80vw', xl: '50vw' } }}>
+          <Stack spacing={1}>
+            <TaskValue id={id} tasks={tasks} themeMode={themeMode} />
+            <Button variant="contained" size='large' color={isHide ? 'primary' : 'secondary'} onClick={() => setIsHide(!isHide)}>
+              Редактировать
             </Button>
-          </Link>
-        </Stack>
+            <Link component={RouterLink} to="/" >
+              <Button variant="outlined" size='large' sx={{ width: "100%" }}>
+                Назад
+              </Button>
+            </Link>
+          </Stack>
 
-        <Stack>
-          {isHide ? null : (
-            <FormGroup sx={{ marginBlock: '2rem' }}>
-              <Typography component="h2" variant="h4" sx={{ marginBlock: '1rem' }}>
-                Отредактировать заметку
-              </Typography>
-              <FormControl component="form" onSubmit={submitEditTaskHandler} sx={{ gap: 2, width: '100%' }}>
-                <CKEditor
-                  editor={CustomEditor}
-                  data={inputTaskBodyValue}
-                  onChange={taskBodyInputHandler}
-                  onReady={() => editorDefaultValueHandler(id)}
-                />
+          <Stack>
+            {isHide ? null : (
+              <FormGroup sx={{ marginBlock: '2rem' }}>
+                <Typography component="h2" variant="h4" sx={{ marginBlock: '1rem' }}>
+                  Отредактировать заметку
+                </Typography>
+                <FormControl component="form" onSubmit={submitEditTaskHandler} sx={{ gap: 2, width: '100%' }}>
+                  <CKEditor
+                    editor={CustomEditor}
+                    data={inputTaskBodyValue}
+                    onChange={taskBodyInputHandler}
+                    onReady={() => editorDefaultValueHandler(id)}
+                  />
 
-                <Button type="submit" size='large' variant="outlined">
-                  Применить изменения
-                </Button>
-              </FormControl>
-            </FormGroup>
-          )}
+                  <Button type="submit" size='large' variant="outlined">
+                    Применить изменения
+                  </Button>
+                </FormControl>
+              </FormGroup>
+            )}
+          </Stack>
         </Stack>
       </Box>
     )
